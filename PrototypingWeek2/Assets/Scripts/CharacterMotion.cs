@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Popcron.Networking;
 using UnityEngine;
 
 public class CharacterMotion : IDedObject<CharacterMotion>
@@ -31,11 +32,8 @@ public class CharacterMotion : IDedObject<CharacterMotion>
     [HideInInspector]
     public Vector3 headFlatForward;
 
-    protected override void Awake()
+    void Start()
     {
-        IDedObject<CharacterMotion>.AddObject(this);
-        ValidateID();
-        // base.Awake();
         rb = GetComponent<Rigidbody>();
     }
 

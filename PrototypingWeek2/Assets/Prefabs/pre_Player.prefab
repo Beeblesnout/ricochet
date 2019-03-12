@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4f278929c833b42b4c4a9383f4b111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disableInput: 0
 --- !u!1001 &741055555649046214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24,6 +23,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: pre_Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701614992454153696, guid: 17434c1f03c20de43915b6bec23195a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5701614992454153701, guid: 17434c1f03c20de43915b6bec23195a3,
         type: 3}
@@ -115,6 +119,31 @@ PrefabInstance:
       propertyPath: mesh
       value: 
       objectReference: {fileID: 3840621137829591724}
+    - target: {fileID: 5701614993187014455, guid: 17434c1f03c20de43915b6bec23195a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5707911994622023843, guid: 17434c1f03c20de43915b6bec23195a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6331674497107646214, guid: 17434c1f03c20de43915b6bec23195a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701614992717478594, guid: 17434c1f03c20de43915b6bec23195a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701614993544540395, guid: 17434c1f03c20de43915b6bec23195a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17434c1f03c20de43915b6bec23195a3, type: 3}
 --- !u!1 &5001518667302695718 stripped

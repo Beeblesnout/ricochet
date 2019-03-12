@@ -4,15 +4,15 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-// using Popcron.Console;
+using Popcron.Console;
 
 namespace Popcron.Networking
 {
-    // using Console = Console.Console;
-    // [Category("Networking commands")]
+    using Console = Console.Console;
+    [Category("Networking commands")]
     public class NetworkCommands
     {
-        // [Command("net status")]
+        [Command("net status")]
         public static string Status()
         {
             string idText = "<b>ID</b>".PadRight(20);
@@ -36,7 +36,7 @@ namespace Popcron.Networking
             }
         }
 
-        // [Command("net list")]
+        [Command("net list")]
         public static void List()
         {
             List<NetworkConnection> connections = Network.Connections;
@@ -79,34 +79,34 @@ namespace Popcron.Networking
             }
         }
 
-        // [Command("net kick")]
+        [Command("net kick")]
         public static void Kick(long connectId)
         {
             Network.CloseConnection(connectId);
         }
 
-        // [Command("net host")]
+        [Command("net host")]
         public static void Host()
         {
             Console.WriteLine("[NET] Attempting to host server with port 25565 and " + 16 + " max connections.");
             Network.InitializeServer(25565, 16);
         }
 
-        // [Command("net host")]
+        [Command("net host")]
         public static void Host(ushort port, byte connections)
         {
             Console.WriteLine("[NET] Attempting to host server with port " + port + " and " + connections + " max connections.");
             Network.InitializeServer(port, connections);
         }
 
-        // [Command("net connect")]
+        [Command("net connect")]
         public static void Connect()
         {
             Console.WriteLine("[NET] Attempting to connect to 127.0.0.1:" + 25565);
             Network.Connect("127.0.0.1", 25565);
         }
 
-        // [Command("net connect")]
+        [Command("net connect")]
         public static void Connect(string address)
         {
             ushort port = 25565;
@@ -124,7 +124,7 @@ namespace Popcron.Networking
             Network.Connect(address, port);
         }
 
-        // [Command("net disconnect")]
+        [Command("net disconnect")]
         public static void Disconnect()
         {
             Network.Disconnect();

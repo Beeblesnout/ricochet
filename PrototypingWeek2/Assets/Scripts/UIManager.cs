@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Console = Popcron.Console.Console;
 
 public class UIManager : SingletonBase<UIManager>
 {
     public Transform canvas;
+
+    public Transform aimCrosshair;
 
     public TextMeshProUGUI dS_PointsText;
     public TextMeshProUGUI dS_ShotsText;
@@ -21,6 +24,12 @@ public class UIManager : SingletonBase<UIManager>
     float rS_Accuracy;
 
     public TMP_Text fpsCounter;
+
+    public override void Awake()
+    {
+        base.Awake();
+        Console.Initialize();
+    }
 
     void Update()
     {

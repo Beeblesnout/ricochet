@@ -626,7 +626,7 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   cloudProjectId: 83794d35-318b-4c9f-89a1-41451b862d25
   framebufferDepthMemorylessMode: 0
-  projectName: PrototypingWeek2 (1)
+  projectName: RicochetGunGame
   organizationId: pocketman
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0

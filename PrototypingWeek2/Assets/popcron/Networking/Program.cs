@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Popcron.Console;
 
 namespace Popcron.Networking
 {
-    // using Console = Console.Console;
+    using Console = Console.Console;
 
     public class Program
     {

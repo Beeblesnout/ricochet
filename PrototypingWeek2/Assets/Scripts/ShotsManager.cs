@@ -108,6 +108,10 @@ public class ShotsManager : SingletonBase<ShotsManager>
             Shot shot = allShots[r];
             if (hits[i].collider != null)
             {
+                if (hits[i].collider.tag == "Enemy")
+                {
+                    // hits[i].collider.gameObject
+                }
                 // register the hit in the shot
                 shot.Hit(hits[i]);
                 // activates an impact effect and cycles it in its queue

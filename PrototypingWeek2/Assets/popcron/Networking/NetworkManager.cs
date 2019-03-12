@@ -8,6 +8,7 @@ using LiteNetLib.Utils;
 using System.IO;
 using Debug = UnityEngine.Debug;
 using System.Threading.Tasks;
+using Popcron.Console;
 
 namespace Popcron.Networking
 {
@@ -85,8 +86,7 @@ namespace Popcron.Networking
         {
             get
             {
-                string root = Directory.GetParent(Directory.GetParent(Application.dataPath).FullName).FullName;
-                string path = System.IO.Path.Combine(root, "Networking", "Executable", "netapp.exe");
+                string path = System.IO.Path.GetFullPath(Application.dataPath + "/popcron/Networking/Executable/netapp.exe");
                 return path;
             }
         }

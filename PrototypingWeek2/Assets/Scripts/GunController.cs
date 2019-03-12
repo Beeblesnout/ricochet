@@ -20,7 +20,6 @@ public class GunController : MonoBehaviour
     public ParticleSystem muzzleFlash;
     public ParticleSystem smokePuff;
 
-    public Transform crosshair;
     public MeshFilter mesh;
 
     void Awake()
@@ -63,11 +62,37 @@ public class GunController : MonoBehaviour
 
     void SetCrosshairPos()
     {
-        RaycastHit gunAimHit;
-        if (Physics.Raycast(gunEnd.position, gunEnd.forward, out gunAimHit, 100))
-            crosshair.position = Camera.main.WorldToScreenPoint(gunAimHit.point);
+        RaycastHit aimHit;
+        if (Physics.Raycast(gunEnd.position, gunEnd.forward, out aimHit, gun.shotRange))
+        {
+            UIManager.Instance.aimCrosshair.position = Camera.main.WorldToScreenPoint(aimHit.point);
+            SetRicochetLine(aimHit.point, Vector3.Reflect(gunEnd.forward, aimHit.normal), aimHit.distance, 11);
+        }
         else
-            crosshair.position = new Vector3(Screen.width / 2, Screen.height / 2);
+        {
+            UIManager.Instance.aimCrosshair.position = new Vector3(Screen.width / 2, Screen.height / 2);
+            // UIManager.Instance.reflectCrosshair.position = Vector3.positiveInfinity;
+            SetRicochetLine();
+        }
+    }
+
+    void SetRicochetLine()
+    {
+        LineRenderer line = UIManager.Instance.aimCrosshair.GetComponent<LineRenderer>();
+        line.positionCount = 0;
+    }
+
+    public AnimationCurve ricochetLineDistanceCurve;
+    void SetRicochetLine(Vector3 point, Vector3 dir, float dist, int pointCount)
+    {
+        LineRenderer line = UIManager.Instance.aimCrosshair.GetComponent<LineRenderer>();
+        line.positionCount = pointCount;
+        line.widthMultiplier = .025f + ricochetLineDistanceCurve.Evaluate(dist / 100);
+        Vector3[] pos = new Vector3[pointCount];
+        for (int i = 0; i < line.GetPositions(pos); i++)
+        {
+            line.SetPosition(i, point + dir * i * ricochetLineDistanceCurve.Evaluate(dist / 75) * 3);
+        }
     }
 
     public void ScrollGun(int i)

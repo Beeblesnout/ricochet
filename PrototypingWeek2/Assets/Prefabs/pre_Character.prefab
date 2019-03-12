@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5701614992454153698}
   - component: {fileID: 5701614992454153700}
   - component: {fileID: 5880656403446961469}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: pre_Character
   m_TagString: Untagged
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 5701614992717478596}
   - component: {fileID: 5701614992717478598}
   - component: {fileID: 5701614992717478599}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GunBarrelEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5008,7 +5008,7 @@ GameObject:
   - component: {fileID: 5701614993187014440}
   - component: {fileID: 5701614993187014441}
   - component: {fileID: 5701614993187014454}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -5090,7 +5090,7 @@ GameObject:
   - component: {fileID: 5701614993544540394}
   - component: {fileID: 5701614993544540396}
   - component: {fileID: 5701614993544540397}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SmokePuff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9847,7 +9847,7 @@ GameObject:
   - component: {fileID: 4540862667203214442}
   - component: {fileID: 1448422011321721596}
   - component: {fileID: 2422375936160109029}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9935,6 +9935,8 @@ MonoBehaviour:
   index: 0
   gun: {fileID: 11400000, guid: cb80a16a2a747ec4a8d093a11db2102c, type: 2}
   gunText: {fileID: 0}
+  canShoot: 0
+  queueShoot: 0
   gunEnd: {fileID: 5701614992717478597}
   mask:
     serializedVersion: 2
@@ -9942,8 +9944,31 @@ MonoBehaviour:
   shootSound: {fileID: 5701614992717478596}
   muzzleFlash: {fileID: 5701614992717478598}
   smokePuff: {fileID: 5701614993544540396}
-  crosshair: {fileID: 0}
   mesh: {fileID: 4540862667203214442}
+  ricochetLineDistanceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.8311503
+      outSlope: 2.8311503
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.041666668
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6331674497107646214
 GameObject:
   m_ObjectHideFlags: 0
@@ -9953,7 +9978,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3546299008598162953}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GunPosAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
