@@ -1,2 +1,1 @@
-# ricochet
-Ricochet Game
+# RicochetGunGame
