@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GunController : MonoBehaviour
 {
+    public bool isPlayer;
     public Gun[] guns;
     public int index;
     public Gun gun;
@@ -32,8 +33,6 @@ public class GunController : MonoBehaviour
     {
         if (Time.time - shotTime > gun.fireRate)
             canShoot = true;
-
-        SetCrosshairPos();
     }
 
     private void FixedUpdate()
@@ -50,7 +49,7 @@ public class GunController : MonoBehaviour
     {
         List<Shot> shots = new List<Shot>();
         for (int i = 0; i < gun.shotCount; i++)
-            shots.Add(new Shot(gunEnd, gun.CalcSpreadRot(gunEnd), gun.ricochets, gun.shotRange, mask));
+            shots.Add(new Shot(gunEnd, gun.CalcSpreadRot(gunEnd), gun.damage, gun.ricochets, gun.shotRange, mask));
         ShotsManager.Instance.RecieveShots(shots);
 
         shootSound.Stop();
@@ -58,41 +57,6 @@ public class GunController : MonoBehaviour
         muzzleFlash.Emit(gun.particleEmitCount);
         smokePuff.Emit(gun.particleEmitCount);
         shotTime = Time.time;
-    }
-
-    void SetCrosshairPos()
-    {
-        RaycastHit aimHit;
-        if (Physics.Raycast(gunEnd.position, gunEnd.forward, out aimHit, gun.shotRange))
-        {
-            UIManager.Instance.aimCrosshair.position = Camera.main.WorldToScreenPoint(aimHit.point);
-            SetRicochetLine(aimHit.point, Vector3.Reflect(gunEnd.forward, aimHit.normal), aimHit.distance, 11);
-        }
-        else
-        {
-            UIManager.Instance.aimCrosshair.position = new Vector3(Screen.width / 2, Screen.height / 2);
-            // UIManager.Instance.reflectCrosshair.position = Vector3.positiveInfinity;
-            SetRicochetLine();
-        }
-    }
-
-    void SetRicochetLine()
-    {
-        LineRenderer line = UIManager.Instance.aimCrosshair.GetComponent<LineRenderer>();
-        line.positionCount = 0;
-    }
-
-    public AnimationCurve ricochetLineDistanceCurve;
-    void SetRicochetLine(Vector3 point, Vector3 dir, float dist, int pointCount)
-    {
-        LineRenderer line = UIManager.Instance.aimCrosshair.GetComponent<LineRenderer>();
-        line.positionCount = pointCount;
-        line.widthMultiplier = .025f + ricochetLineDistanceCurve.Evaluate(dist / 100);
-        Vector3[] pos = new Vector3[pointCount];
-        for (int i = 0; i < line.GetPositions(pos); i++)
-        {
-            line.SetPosition(i, point + dir * i * ricochetLineDistanceCurve.Evaluate(dist / 75) * 3);
-        }
     }
 
     public void ScrollGun(int i)
@@ -111,7 +75,7 @@ public class GunController : MonoBehaviour
     public void ChangeGun(int i)
     {
         gun = guns[i];
-        gunText.text = "Gun: " + gun.name;
+        if (isPlayer) gunText.text = "Gun: " + gun.name;
         mesh.mesh = gun.mesh;
     }
 }

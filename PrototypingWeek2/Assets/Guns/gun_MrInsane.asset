@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: gun_MrInsane
   m_EditorClassIdentifier: 
   gunName: Mr Insane
+  damage: 1
   fireRate: 0.01
   ricochets: 5
   shotCount: 25

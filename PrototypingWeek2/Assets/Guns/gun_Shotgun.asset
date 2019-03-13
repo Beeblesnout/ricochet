@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: gun_Shotgun
   m_EditorClassIdentifier: 
   gunName: Shotgun
+  damage: 0.2
   fireRate: 1
   ricochets: 2
   shotCount: 10
   shotRange: 300
-  bulletSpread: 10
+  bulletSpread: 7
   particleEmitCount: 50
   mesh: {fileID: 4300000, guid: 154151be04be59a44a2fe1d18b58c8bf, type: 3}
   shotSound: {fileID: 8300000, guid: e10fc9939aa768a4e9156d2b774da6de, type: 3}

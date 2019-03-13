@@ -19,6 +19,8 @@ public class CharacterMotion : IDedObject<CharacterMotion>
     public Vector3 gunHeadOffset;
     public float gunPosRate;
 
+    public Health health;
+
     [HideInInspector]
     public Rigidbody rb;
     [HideInInspector]
@@ -35,6 +37,8 @@ public class CharacterMotion : IDedObject<CharacterMotion>
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        health = GetComponent<Health>();
+        health.onDeath.AddListener(KillPop);
     }
 
     // temporary movement velocity
@@ -45,23 +49,25 @@ public class CharacterMotion : IDedObject<CharacterMotion>
         head.Rotate(Vector3.up, lookInput.x * lookSensitivity, Space.World);
         head.Rotate(head.right, -lookInput.y * lookSensitivity, Space.World);
 
-        // Movement
-        headFlatForward = new Vector3(head.forward.x, 0, head.forward.z).normalized;
-        vel += (head.right * moveInput.x + headFlatForward * moveInput.y) * accel;
+        if (health.alive) {
+            // Movement
+            headFlatForward = new Vector3(head.forward.x, 0, head.forward.z).normalized;
+            vel += (head.right * moveInput.x + headFlatForward * moveInput.y) * accel;
 
-        if (vel.magnitude > maxSpeed)
-            vel = Vector3.Lerp(vel, vel.normalized * maxSpeed, clampRate);
+            if (vel.magnitude > maxSpeed)
+                vel = Vector3.Lerp(vel, vel.normalized * maxSpeed, clampRate);
 
-        if (moveInput.magnitude == 0)
-            vel -= vel.normalized * vel.magnitude * deccel;
+            if (moveInput.magnitude == 0)
+                vel -= vel.normalized * vel.magnitude * deccel;
 
-        rb.velocity = new Vector3(vel.x, rb.velocity.y, vel.z);
+            rb.velocity = new Vector3(vel.x, rb.velocity.y, vel.z);
 
-        if (queueJump && Physics.Raycast(transform.position + Vector3.down * .9f, Vector3.down, .2f))
-        {
-            queueJump = false;
-            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-            rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
+            if (queueJump && Physics.Raycast(transform.position + Vector3.down * .9f, Vector3.down, .2f))
+            {
+                queueJump = false;
+                rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
+            }
         }
 
         // Gun Over-Rotation
@@ -83,5 +89,11 @@ public class CharacterMotion : IDedObject<CharacterMotion>
         // respawn
         if (transform.position.y < -10) 
             transform.position = Vector3.zero;
+    }
+
+    void KillPop()
+    {
+        rb.freezeRotation = false;
+        rb.AddExplosionForce(100, (Vector3.up * -.5f) + new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)), 5, 200, ForceMode.Impulse);
     }
 }

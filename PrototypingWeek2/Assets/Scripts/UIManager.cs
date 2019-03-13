@@ -9,77 +9,63 @@ public class UIManager : SingletonBase<UIManager>
     public Transform canvas;
 
     public Transform aimCrosshair;
-
-    public TextMeshProUGUI dS_PointsText;
-    public TextMeshProUGUI dS_ShotsText;
-    public TextMeshProUGUI dS_AccuracyText;
-    float dS_Points;
-    float dS_Shots;
-    float dS_Accuracy;
-    public TextMeshProUGUI rS_PointsText;
-    public TextMeshProUGUI rS_ShotsText;
-    public TextMeshProUGUI rS_AccuracyText;
-    float rS_Points;
-    float rS_Shots;
-    float rS_Accuracy;
-
+    public LineRenderer aimReflectLine;
     public TMP_Text fpsCounter;
+    public TMP_Text currentGunText;
+
+    public CharacterMotion playerMotion;
+    public GunController playerGun;
+    private Health playerHealth;
 
     public override void Awake()
     {
         base.Awake();
         Console.Initialize();
+        if (aimReflectLine == null) aimReflectLine = aimCrosshair.GetComponent<LineRenderer>();
+        if (playerGun == null) playerGun = playerMotion.gameObject.GetComponentInChildren<GunController>();
+        if (playerHealth == null) playerHealth = playerMotion.gameObject.GetComponent<Health>();
     }
 
     void Update()
     {
         fpsCounter.text = 1f / Time.deltaTime + "";
 
+        SetCrosshairPos();
+
         if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
-
-        if (Input.GetKeyDown(KeyCode.R))
-            ResetStats();
     }
 
-    public void RicochetTargetHit(float points) 
+    void SetCrosshairPos()
     {
-        rS_Points += points;
-        rS_Shots++;
-        rS_Accuracy = rS_Points / rS_Shots;
-
-        rS_PointsText.text = rS_Points.ToString();
-        rS_ShotsText.text = rS_Shots.ToString();
-        rS_AccuracyText.text = rS_Accuracy.ToString();
+        RaycastHit aimHit;
+        if (Physics.Raycast(playerGun.transform.position, playerGun.transform.forward, out aimHit, playerGun.gun.shotRange))
+        {
+            aimCrosshair.position = Camera.main.WorldToScreenPoint(aimHit.point);
+            SetRicochetLine(aimHit.point, Vector3.Reflect(playerGun.transform.forward, aimHit.normal), aimHit.distance, 11);
+        }
+        else
+        {
+            aimCrosshair.position = new Vector3(Screen.width / 2, Screen.height / 2);
+            SetRicochetLine();
+        }
     }
 
-    public void DirectTargetHit(float points) 
+    void SetRicochetLine()
     {
-            dS_Points += points;
-            dS_Shots++;
-            dS_Accuracy = dS_Points / dS_Shots;
-
-            dS_PointsText.text = dS_Points.ToString();
-            dS_ShotsText.text = dS_Shots.ToString();
-            dS_AccuracyText.text = dS_Accuracy.ToString();
+        LineRenderer line = aimCrosshair.GetComponent<LineRenderer>();
+        line.positionCount = 0;
     }
 
-    void ResetStats() 
+    public AnimationCurve ricochetLineDistanceCurve;
+    void SetRicochetLine(Vector3 point, Vector3 dir, float dist, int pointCount)
     {
-        rS_Points = 0;
-        rS_Shots = 0;
-        rS_Accuracy = 0;
-
-        rS_PointsText.text = "0";
-        rS_ShotsText.text = "0";
-        rS_AccuracyText.text = "0";
-
-
-        dS_Points = 0;
-        dS_Shots = 0;
-        dS_Accuracy = 0;
-
-        dS_PointsText.text = "0";
-        dS_ShotsText.text = "0";
-        dS_AccuracyText.text = "0";
+        LineRenderer line = aimCrosshair.GetComponent<LineRenderer>();
+        line.positionCount = pointCount;
+        line.widthMultiplier = .025f + ricochetLineDistanceCurve.Evaluate(dist / 100);
+        Vector3[] pos = new Vector3[pointCount];
+        for (int i = 0; i < line.GetPositions(pos); i++)
+        {
+            line.SetPosition(i, point + dir * i * ricochetLineDistanceCurve.Evaluate(dist / 75) * 3);
+        }
     }
 }
