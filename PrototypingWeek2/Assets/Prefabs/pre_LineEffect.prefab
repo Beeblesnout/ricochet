@@ -47,11 +47,7 @@ MonoBehaviour:
   duration: 1
   activateTime: 0
   lifePercent: 0
-  onDeath:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  alive: 0
   effectOverLifetime:
     serializedVersion: 2
     m_Curve:
@@ -77,7 +73,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   endLength: 5
-  tessLevel: 2
+  lineRes: 2
   line: {fileID: 8341145575862077647}
   isDissipating: 0
 --- !u!120 &8341145575862077647
@@ -130,7 +126,7 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
+        time: 0.5
         value: 1
         inSlope: 0
         outSlope: 0
@@ -141,11 +137,11 @@ LineRenderer:
       - serializedVersion: 3
         time: 1
         value: 0
-        inSlope: -2.332277
-        outSlope: -2.332277
+        inSlope: -4.417318
+        outSlope: -4.417318
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.07466066
+        inWeight: 0.16271186
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2

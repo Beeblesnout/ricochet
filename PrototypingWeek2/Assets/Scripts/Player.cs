@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
     {
         motor = GetComponent<CharacterMotion>();
         gun = GetComponentInChildren<GunController>();
-        gun.gunText = UIManager.Instance.currentGunText;
     }
 
     void Start()
@@ -49,6 +48,11 @@ public class Player : MonoBehaviour
             motor.moveInput = Vector2.zero;
             motor.lookInput = Vector2.zero;
         }
+    }
+
+    public void UpdateGunText()
+    {
+        UIManager.Instance.currentGunText.text = "Gun: " + gun.gun.name;
     }
 
     public void ToggleInput()

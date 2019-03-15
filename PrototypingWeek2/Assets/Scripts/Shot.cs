@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class Shot
 {
-    // Variables
+    // Variables    
     List<RaycastHit> p_allHits;
     RaycastCommand p_ray;
     public List<RaycastCommand> allRays;
     float p_damage;
     bool p_readyToFire;
-    float p_maxDistance;
     Vector3 p_origin;
-    int maxHits;
     float remainingDistance;
     float hitTime;
-    LayerMask layers;
+    public readonly GameObject owner;
+    public readonly int maxHits;
+    public readonly float maxDistance;
+    public readonly LayerMask layers;
     public bool isFirst = true;
     public bool completed = false;
 
@@ -28,20 +29,20 @@ public class Shot
     public RaycastCommand ray { get => p_ray; }
     public float damage { get => p_damage; }
     public bool readyToFire { get => p_readyToFire; }
-    public float maxDistance { get => p_maxDistance; }
     public Vector3 origin { get => p_origin; }
 
     // Constructor Method
-    public Shot(Transform barrelEnd, Vector3 direction, float baseDamage, int maxHits, float maxRange, LayerMask mask)
+    public Shot(GameObject owner, Transform barrelEnd, Vector3 direction, float baseDamage, int maxHits, float maxDistance, LayerMask mask)
     {
+        this.owner = owner;
         p_origin = barrelEnd.position;
         p_allHits = new List<RaycastHit>();
         RaycastHit hit = new RaycastHit();
         hit.point = barrelEnd.position;
         hit.normal = barrelEnd.forward;
         p_allHits.Add(hit);
-        p_maxDistance = maxRange;
-        remainingDistance = p_maxDistance;
+        this.maxDistance = maxDistance;
+        remainingDistance = maxDistance;
         layers = mask;
         p_ray = new RaycastCommand(p_origin, direction, remainingDistance, layers);
         allRays = new List<RaycastCommand>();
@@ -55,17 +56,8 @@ public class Shot
     // Variable Update Method
     public void Hit(RaycastHit hit)
     {
+        // calculate the hit direction
         Vector3 inDir = -(lastHit.point - hit.point).normalized;
-
-        if (hit.collider.tag == "Enemy" && !isFirst) 
-        {
-            Health h = hit.collider.GetComponent<Health>();
-            if (h.alive) 
-                h.Damage(p_damage + .25f * (allHits.Count - 1));
-            else 
-                hit.collider.GetComponent<Rigidbody>().AddForceAtPosition(inDir * p_damage, hit.point, ForceMode.Impulse);
-        }
-        
         // calculate the reflected direction
         Vector3 outDir = Vector3.Reflect(inDir, hit.normal);
         // reduce the remaining distance by the distance this hit was
@@ -90,6 +82,10 @@ public class Shot
         if (!completed) p_readyToFire = Time.time - hitTime >= .065f + (.005f * p_allHits.Count);
     }
 
+    /// <summary>
+    /// Gets a list of all the recorded hit positions in WS. (+ a final pos)
+    /// </summary>
+    /// <returns>A Vector3 List of hit positions</returns>
     public List<Vector3> getAllHitPoints()
     {
         List<Vector3> points = new List<Vector3>();

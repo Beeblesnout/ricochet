@@ -9,11 +9,10 @@ public class GunController : MonoBehaviour
     public int index;
     public Gun gun;
 
-    public TMPro.TMP_Text gunText;
-
     float shotTime;
     public bool canShoot;
     public bool queueShoot;
+    public CharacterMotion motion;
     public Transform gunEnd;
     public LayerMask mask;
     
@@ -49,7 +48,7 @@ public class GunController : MonoBehaviour
     {
         List<Shot> shots = new List<Shot>();
         for (int i = 0; i < gun.shotCount; i++)
-            shots.Add(new Shot(gunEnd, gun.CalcSpreadRot(gunEnd), gun.damage, gun.ricochets, gun.shotRange, mask));
+            shots.Add(new Shot(motion.gameObject, gunEnd, gun.CalcSpreadRot(gunEnd), gun.damage, gun.ricochets, gun.shotRange, mask));
         ShotsManager.Instance.RecieveShots(shots);
 
         shootSound.Stop();
@@ -75,7 +74,7 @@ public class GunController : MonoBehaviour
     public void ChangeGun(int i)
     {
         gun = guns[i];
-        if (isPlayer) gunText.text = "Gun: " + gun.name;
         mesh.mesh = gun.mesh;
+        GetComponent<Player>()?.UpdateGunText();
     }
 }
