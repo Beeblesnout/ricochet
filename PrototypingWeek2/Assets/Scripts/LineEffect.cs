@@ -5,26 +5,26 @@ using UnityEngine;
 public class LineEffect : Effect
 {
     // Variables
-    public AnimationCurve widthOverLifetime;
+    public AnimationCurve effectOverLifetime;
     public float endLength;
     public int tessLevel;
     public LineRenderer line;
-
-    // List<Vector3> positions = new List<Vector3>();
+    public bool isDissipating;
 
     void Awake()
     {
         line = GetComponent<LineRenderer>();
         line.positionCount = 3;
+        isDissipating = false;
     }
 
-    public LineEffect Activate(Vector3[] points)
+    public void Activate(Vector3[] points, bool finalShot)
     {
+        isDissipating = finalShot;
         line.positionCount = points.Length;
         line.SetPositions(points);
         TessLine();
         Activate();
-        return this;
     }
 
     void TessLine()
@@ -45,9 +45,12 @@ public class LineEffect : Effect
         line.SetPositions(positions);
     }
     
-    public new void Update()
+    public override void Update()
     {
-        Tick();
-        line.widthMultiplier = widthOverLifetime.Evaluate(lifePercent);
+        if (isDissipating)
+        {
+            base.Update();
+            line.material.SetFloat("_Life", effectOverLifetime.Evaluate(lifePercent));
+        }
     }
 }

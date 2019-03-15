@@ -65,7 +65,7 @@ public class UIManager : SingletonBase<UIManager>
         Vector3[] pos = new Vector3[pointCount];
         for (int i = 0; i < line.GetPositions(pos); i++)
         {
-            line.SetPosition(i, point + dir * i * ricochetLineDistanceCurve.Evaluate(dist / 75) * 3);
+            line.SetPosition(i, point + dir * i * ricochetLineDistanceCurve.Evaluate(dist / 2) * 3);
         }
     }
 }

@@ -1,28 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Effect : MonoBehaviour
 {
     public float duration;
     [HideInInspector]
     public float activateTime;
-    [HideInInspector]
     public float lifePercent;
+    public bool alive;
 
     public virtual void Activate()
     {
         activateTime = Time.time;
-        // return this;
+        alive = true;
+        lifePercent = 0;
     }
 
-    public void Update()
+    public virtual void Update()
     {
-        Tick();
-    }
-
-    public void Tick()
-    {
-        lifePercent = (Time.time - activateTime) / duration;
+        alive = lifePercent < 1;
+        if (alive) 
+            lifePercent = (Time.time - activateTime) / duration;
     }
 }

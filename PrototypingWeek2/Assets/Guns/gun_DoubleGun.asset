@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: gun_DoubleGun
   m_EditorClassIdentifier: 
   gunName: Double Gun
-  damage: 0.6
+  damage: 4
   fireRate: 0.2
   ricochets: 3
   shotCount: 2

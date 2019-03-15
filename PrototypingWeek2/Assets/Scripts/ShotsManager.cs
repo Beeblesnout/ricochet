@@ -16,7 +16,8 @@ public class ShotsManager : SingletonBase<ShotsManager>
     public int impactEffectCount;
     public int lineEffectCount;
     Queue<ImpactEffect> impactEffects = new Queue<ImpactEffect>();
-    Queue<LineEffect> lineEffects = new Queue<LineEffect>();
+    public Queue<LineEffect> lineEffects = new Queue<LineEffect>();
+    public Dictionary<Shot, LineEffect> activeShotLines = new Dictionary<Shot, LineEffect>();
     public TMPro.TMP_Text shotCountText;
     public TMPro.TMP_Text rayCountText;
 
@@ -37,17 +38,19 @@ public class ShotsManager : SingletonBase<ShotsManager>
     {
         for (int i = 0; i < allShots.Count; i++)
         {
-            if (allShots[i].completed)
+            Shot shot = allShots[i];
+            if (shot.completed)
             {
+                if (activeShotLines.ContainsKey(shot)) DetachLine(shot);
                 allShots.RemoveAt(i);
             }
-            else if (allShots[i].readyToFire)
+            else if (shot.readyToFire)
             {
                 readyShotsIndex.Add(i);
             }
             else
             {
-                allShots[i].Tick();
+                shot.Tick();
             }
         }
 
@@ -122,14 +125,32 @@ public class ShotsManager : SingletonBase<ShotsManager>
                 shot.completed = true;
             }
 
-            // activates a line effect and cycles it in its queue
-            lineEffects.Enqueue(lineEffects.Dequeue().Activate(shot.getAllHitPoints().ToArray()));
-
-            for (int s = 0; s < shot.getAllHitPoints().ToArray().Length-1; s++)
+            if (activeShotLines.ContainsKey(shot))
             {
-                    Debug.DrawLine(shot.getAllHitPoints().ToArray()[s], shot.getAllHitPoints().ToArray()[s+1], Color.green, 5f, false);
+                activeShotLines[shot].Activate(shot.getAllHitPoints().ToArray(), shot.completed);
+                RequeueLine(activeShotLines[shot]);
+            }
+            else
+            {
+                // fetches a new line from the list, 
+                LineEffect newLine = lineEffects.Dequeue();
+                activeShotLines.Add(shot, newLine);
+                newLine.Activate(shot.getAllHitPoints().ToArray(), shot.completed);
+                lineEffects.Enqueue(newLine);
             }
         }
+    }
+
+    public void RequeueLine(LineEffect line)
+    {
+        lineEffects.ToList().Remove(line);
+        lineEffects.Enqueue(line);
+    }
+
+    public void DetachLine(Shot shot)
+    {
+        RequeueLine(activeShotLines[shot]);
+        activeShotLines.Remove(shot);
     }
 
     public void RecieveShots(List<Shot> newShots)
