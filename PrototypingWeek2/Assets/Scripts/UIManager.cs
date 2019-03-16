@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Console = Popcron.Console.Console;
+// using Popcron.console;
+// using Console = Console.Console;
 
 public class UIManager : SingletonBase<UIManager>
 {
@@ -20,7 +21,7 @@ public class UIManager : SingletonBase<UIManager>
     public override void Awake()
     {
         base.Awake();
-        Console.Initialize();
+        // Console.Initialize();
         if (aimReflectLine == null) aimReflectLine = aimCrosshair.GetComponent<LineRenderer>();
         if (playerGun == null) playerGun = playerMotion.gameObject.GetComponentInChildren<GunController>();
         if (playerHealth == null) playerHealth = playerMotion.gameObject.GetComponent<Health>();
