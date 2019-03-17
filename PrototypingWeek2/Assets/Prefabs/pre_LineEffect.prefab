@@ -126,19 +126,10 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.5
+        time: 1
         value: 1
         inSlope: 0
         outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.17873304
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: -4.417318
-        outSlope: -4.417318
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.16271186
@@ -176,7 +167,7 @@ LineRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
-    numCapVertices: 12
+    numCapVertices: 0
     alignment: 0
     textureMode: 1
     shadowBias: 0.5
