@@ -4184,7 +4184,7 @@ PrefabInstance:
     - target: {fileID: 5701614992454153696, guid: 17434c1f03c20de43915b6bec23195a3,
         type: 3}
       propertyPath: m_Name
-      value: pre_Character
+      value: Character
       objectReference: {fileID: 0}
     - target: {fileID: 5701614992454153696, guid: 17434c1f03c20de43915b6bec23195a3,
         type: 3}
@@ -4245,6 +4245,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880656403446961469, guid: 17434c1f03c20de43915b6bec23195a3,
+        type: 3}
+      propertyPath: p_ID
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8930017846877760375, guid: 17434c1f03c20de43915b6bec23195a3,
         type: 3}
@@ -5982,7 +5987,7 @@ MonoBehaviour:
       value: 0
       inSlope: 1
       outSlope: 1
-      tangentMode: 0
+      tangentMode: 65
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
@@ -5991,7 +5996,7 @@ MonoBehaviour:
       value: 1
       inSlope: 1
       outSlope: 1
-      tangentMode: 0
+      tangentMode: 5
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
@@ -6444,7 +6449,7 @@ PrefabInstance:
     - target: {fileID: 5001518667302695718, guid: 6917dac65eaee494d979ba943d3b947b,
         type: 3}
       propertyPath: m_Name
-      value: pre_Player
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4823623694584157193, guid: 6917dac65eaee494d979ba943d3b947b,
         type: 3}

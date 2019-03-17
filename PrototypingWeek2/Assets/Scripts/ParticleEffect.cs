@@ -38,9 +38,9 @@ public class ParticleEffect : Effect
         particles.Emit((int)(emitCount * decayCurve.Evaluate(lifePercent)));
     }
     
-    public new void Update()
+    public override void Update()
     {
+        base.Update();
         if (emitType == EmissionType.DECAY) Emit();
-        Tick();
     }
 }
