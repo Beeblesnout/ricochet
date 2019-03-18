@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterMotion))]
 public class Player : MonoBehaviour
 {
+    public int playerTeamID;
+
     CharacterMotion motor;
     GunController gun;
 
