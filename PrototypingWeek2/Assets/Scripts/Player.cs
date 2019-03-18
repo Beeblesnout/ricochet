@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterMotion))]
 public class Player : MonoBehaviour
 {
+    public int playerID;
     public int playerTeamID;
 
     CharacterMotion motor;
