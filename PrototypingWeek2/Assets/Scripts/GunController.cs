@@ -48,7 +48,7 @@ public class GunController : MonoBehaviour
     {
         List<Shot> shots = new List<Shot>();
         for (int i = 0; i < gun.shotCount; i++)
-            shots.Add(new Shot(motion.gameObject, gunEnd, gun.CalcSpreadRot(gunEnd), gun.damage, gun.ricochets, gun.shotRange, mask));
+            shots.Add(new Shot(motion.gameObject, gunEnd.position, gun.CalcSpreadRot(gunEnd), gun.damage, gun.ricochets, gun.shotRange, mask));
         ShotsManager.Instance.RecieveShots(shots);
 
         shootSound.Stop();

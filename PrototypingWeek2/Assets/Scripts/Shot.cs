@@ -32,14 +32,14 @@ public class Shot
     public Vector3 origin { get => p_origin; }
 
     // Constructor Method
-    public Shot(GameObject owner, Transform barrelEnd, Vector3 direction, float baseDamage, int maxHits, float maxDistance, LayerMask mask)
+    public Shot(GameObject owner, Vector3 position, Vector3 direction, float baseDamage, int maxHits, float maxDistance, LayerMask mask)
     {
         this.owner = owner;
-        p_origin = barrelEnd.position;
+        p_origin = position;
         p_allHits = new List<RaycastHit>();
         RaycastHit hit = new RaycastHit();
-        hit.point = barrelEnd.position;
-        hit.normal = barrelEnd.forward;
+        hit.point = position;
+        hit.normal = direction;
         p_allHits.Add(hit);
         this.maxDistance = maxDistance;
         remainingDistance = maxDistance;
