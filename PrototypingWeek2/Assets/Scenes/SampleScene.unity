@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.77730876, g: 0.90397465, b: 1.0963423, a: 1}
+  m_IndirectSpecularColor: {r: 0.77724224, g: 0.9039948, b: 1.0965642, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4453,7 +4453,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 0
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -6451,6 +6451,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3158923356654114595, guid: 6917dac65eaee494d979ba943d3b947b,
+        type: 3}
+      propertyPath: guns.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3158923356654114595, guid: 6917dac65eaee494d979ba943d3b947b,
+        type: 3}
+      propertyPath: guns.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 975ffc3a5477c80448f4bafae9b737f6,
+        type: 2}
+    - target: {fileID: 3158923356654114595, guid: 6917dac65eaee494d979ba943d3b947b,
+        type: 3}
+      propertyPath: grenade
+      value: 
+      objectReference: {fileID: 8521483041312749796, guid: 8eeae4b707dd3bc4186a7eea334d0c85,
+        type: 3}
     - target: {fileID: 4823623694584157193, guid: 6917dac65eaee494d979ba943d3b947b,
         type: 3}
       propertyPath: m_Depth
@@ -6696,3 +6713,72 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &8521483040404341260
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8521483041312749796, guid: 8eeae4b707dd3bc4186a7eea334d0c85,
+        type: 3}
+      propertyPath: m_Name
+      value: Grenade
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521483041312749792, guid: 8eeae4b707dd3bc4186a7eea334d0c85,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521483041312749792, guid: 8eeae4b707dd3bc4186a7eea334d0c85,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.729
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521483041312749792, guid: 8eeae4b707dd3bc4186a7eea334d0c85,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.296
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521483041312749792, guid: 8eeae4b707dd3bc4186a7eea334d0c85,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521483041312749792, guid: 8eeae4b707dd3bc4186a7eea334d0c85,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521483041312749792, guid: 8eeae4b707dd3bc4186a7eea334d0c85,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521483041312749792, guid: 8eeae4b707dd3bc4186a7eea334d0c85,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521483041312749792, guid: 8eeae4b707dd3bc4186a7eea334d0c85,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521483041312749792, guid: 8eeae4b707dd3bc4186a7eea334d0c85,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521483041312749792, guid: 8eeae4b707dd3bc4186a7eea334d0c85,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521483041312749792, guid: 8eeae4b707dd3bc4186a7eea334d0c85,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8eeae4b707dd3bc4186a7eea334d0c85, type: 3}
