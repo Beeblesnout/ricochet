@@ -9,6 +9,7 @@ public class Grenade : MonoBehaviour
 
     [SerializeField]
     private SphereCollider explosionRadius;
+    public GameObject explosionObject;
 
     [Space]
     [SerializeField]
@@ -31,6 +32,7 @@ public class Grenade : MonoBehaviour
     {
         if(hasExploded)
         {
+            Instantiate(explosionObject, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
         switch(canExplode)
@@ -62,6 +64,10 @@ public class Grenade : MonoBehaviour
         {
             Debug.Log("OINGO BOINGO BROTHERS");
             canExplode = true;
+        }
+       if(other.gameObject.tag != "Environment" && canExplode)
+        {
+            timer = 0;
         }
     }
 
