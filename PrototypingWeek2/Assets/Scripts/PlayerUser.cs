@@ -212,11 +212,18 @@ public class PlayerUser : NetUser
             {
                 player = Instantiate(characterPrefab);
             }
+            player.GetComponent<Health>().onDeath.AddListener(KillPlayer);
             playerGun = player.GetComponentInChildren<GunController>();
         }
         else if (player != null && !isAlive)
         {
             Destroy(player);
         }
+    }
+
+    private async void KillPlayer()
+    {
+        await Task.Delay(1000);
+        Destroy(player);
     }
 }

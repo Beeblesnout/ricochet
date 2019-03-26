@@ -21,7 +21,6 @@ public class Health : MonoBehaviour
     private Material deadCharMat;
     Material defMat;
     
-    // public event float hurt {}
     public UnityEvent onDeath;
 
     void Awake()
@@ -78,9 +77,3 @@ public class Health : MonoBehaviour
         onDeath.Invoke();
     }
 }
-
-// public class HurtEventArgs
-// {
-//     public HurtEventArgs(GameObject d) { dealer = d; }
-//     public GameObject dealer { get; }
-// }
