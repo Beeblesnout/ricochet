@@ -72,6 +72,9 @@ public class GunController : MonoBehaviour
                     spawnedScript.damage = gun.damage;
                     spawnedScript.velocity = gun.shotRange;
                 }
+                shootSound.PlayOneShot(gun.shotSound);
+                muzzleFlash.Emit(gun.particleEmitCount);
+                smokePuff.Emit(gun.particleEmitCount);
                 shotTime = Time.time;
                 break;
 

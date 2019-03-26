@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
+    private bool canExplode = false;
+    private float explodeTimer;
     public float damage;
     public float velocity;
 
@@ -19,5 +21,13 @@ public class Grenade : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+       if(other.gameObject.tag == "Environment" && !canExplode)
+        {
+            Debug.Log("OINGO BOINGO BROTHERS");
+        }
     }
 }
