@@ -50,4 +50,6 @@ MonoBehaviour:
     port: 0
   playerPrefab: {fileID: 5001518667302695718, guid: 6917dac65eaee494d979ba943d3b947b,
     type: 3}
+  characterPrefab: {fileID: 5701614992454153696, guid: 17434c1f03c20de43915b6bec23195a3,
+    type: 3}
   isAlive: 0

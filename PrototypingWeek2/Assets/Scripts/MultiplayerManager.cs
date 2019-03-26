@@ -8,6 +8,7 @@ using UnityEngine;
 public class MultiplayerManager : SingletonBase<MultiplayerManager>
 {
 
+
     public static Action<Message> onMessage;
 
     private void OnEnable()
@@ -38,5 +39,5 @@ public class MultiplayerManager : SingletonBase<MultiplayerManager>
 
 public enum NetMessageType
 {
-    PlayerAliveState
+    PlayerAliveState, PlayerPosition, PlayerEulerAngles, PlayerShootState, PlayerGunID
 }

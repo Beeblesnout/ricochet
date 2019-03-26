@@ -33,9 +33,11 @@ public class CharacterMotion : IDedObject<CharacterMotion>
     public bool queueJump;
     [HideInInspector]
     public Vector3 headFlatForward;
+    private Player player;
 
     void Start()
     {
+        player = GetComponent<Player>();
         rb = GetComponent<Rigidbody>();
         health = GetComponent<Health>();
         health.onDeath.AddListener(KillPop);
@@ -46,6 +48,8 @@ public class CharacterMotion : IDedObject<CharacterMotion>
     Vector3 vel;
     private void FixedUpdate()
     {
+        if (!player) return;
+
         // Look Rotation
         head.Rotate(Vector3.up, lookInput.x * lookSensitivity, Space.World);
         head.Rotate(head.right, -lookInput.y * lookSensitivity, Space.World);
