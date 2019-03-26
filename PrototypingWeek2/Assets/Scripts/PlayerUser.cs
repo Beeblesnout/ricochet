@@ -7,9 +7,10 @@ using UnityEngine;
 
 public class PlayerUser : NetUser
 {
+    public static PlayerUser Local { get; private set; }
     public GameObject playerPrefab;
     public GameObject characterPrefab;
-    GameObject player;
+    public GameObject player { get; private set; }
     GunController playerGun;
     public bool isAlive = false;
     private bool lastAlive;
@@ -132,6 +133,7 @@ public class PlayerUser : NetUser
     {
         if (IsMine)
         {
+            Local = this;
             isAlive = true;
             if (isAlive != lastAlive)
             {
@@ -214,6 +216,7 @@ public class PlayerUser : NetUser
             }
             player.GetComponent<Health>().onDeath.AddListener(KillPlayer);
             playerGun = player.GetComponentInChildren<GunController>();
+            UIManager.Instance.LinkUIElements(player.GetComponent<CharacterMotion>());
         }
         else if (player != null && !isAlive)
         {
