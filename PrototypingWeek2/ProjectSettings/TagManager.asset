@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Target
   - Enemy
+  - TeamBase
   layers:
   - Default
   - TransparentFX
@@ -20,9 +21,9 @@ TagManager:
   - Walls
   - Enemies
   - Target
-  - Player
-  - Flag
-  - TeamBase
+  - 
+  - 
+  - 
   - 
   - 
   - 

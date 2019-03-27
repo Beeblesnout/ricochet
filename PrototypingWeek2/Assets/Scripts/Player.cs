@@ -1,13 +1,10 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterMotion))]
 public class Player : MonoBehaviour
 {
-    public int playerID;
-    public int playerTeamID;
-    
-    public PlayerUser user;
     CharacterMotion motor;
     GunController gun;
 
@@ -17,6 +14,7 @@ public class Player : MonoBehaviour
     {
         motor = GetComponent<CharacterMotion>();
         gun = GetComponentInChildren<GunController>();
+        gun.gunText = UIManager.Instance.currentGunText;
     }
 
     void Start()
@@ -26,7 +24,6 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        // if (!user.IsMine) return;
         motor.prevLookInput = motor.lookInput;
         if (!disableInput)
         {
@@ -45,18 +42,13 @@ public class Player : MonoBehaviour
             else if (Input.mouseScrollDelta.y < 0)
                 motor.gun.ScrollGun(-1);
 
-            gun.shooting = Input.GetButton("Fire1");
+            gun.queueShoot ^= Input.GetButton("Fire1") && gun.canShoot;
         }
         else
         {
             motor.moveInput = Vector2.zero;
             motor.lookInput = Vector2.zero;
         }
-    }
-
-    public void UpdateGunText()
-    {
-        UIManager.Instance.currentGunText.text = "Gun: " + gun.gun.name;
     }
 
     public void ToggleInput()

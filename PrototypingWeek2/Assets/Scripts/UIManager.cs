@@ -23,11 +23,6 @@ public class UIManager : SingletonBase<UIManager>
         base.Awake();
         // Console.Initialize();
         if (aimReflectLine == null) aimReflectLine = aimCrosshair.GetComponent<LineRenderer>();
-    }
-
-    public void LinkUIElements(CharacterMotion newMotion)
-    {
-        playerMotion = newMotion;
         if (playerGun == null) playerGun = playerMotion.gameObject.GetComponentInChildren<GunController>();
         if (playerHealth == null) playerHealth = playerMotion.gameObject.GetComponent<Health>();
     }
@@ -36,7 +31,7 @@ public class UIManager : SingletonBase<UIManager>
     {
         fpsCounter.text = 1f / Time.deltaTime + "";
 
-        if (playerGun) SetCrosshairPos();
+        SetCrosshairPos();
 
         if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
     }
@@ -71,7 +66,7 @@ public class UIManager : SingletonBase<UIManager>
         Vector3[] pos = new Vector3[pointCount];
         for (int i = 0; i < line.GetPositions(pos); i++)
         {
-            line.SetPosition(i, point + dir * i * ricochetLineDistanceCurve.Evaluate(dist / 2) * 3);
+            line.SetPosition(i, point + dir * i * ricochetLineDistanceCurve.Evaluate(dist / 75) * 3);
         }
     }
 }

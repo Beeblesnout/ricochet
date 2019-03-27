@@ -59,7 +59,7 @@ public class FlagBaseController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player") && isNewFlagAvailable)
+        if (other.gameObject.tag == "Player" && isNewFlagAvailable)
         {
             CaptureFlag(other);
         }

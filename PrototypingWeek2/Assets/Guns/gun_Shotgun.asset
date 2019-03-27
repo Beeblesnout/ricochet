@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: gun_Shotgun
   m_EditorClassIdentifier: 
   gunName: Shotgun
-  damage: 2
+  damage: 0.2
   fireRate: 1
   ricochets: 2
   shotCount: 10

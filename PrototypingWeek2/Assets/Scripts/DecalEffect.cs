@@ -10,9 +10,9 @@ public class DecalEffect : Effect
         duration += Random.Range(-.35f, .35f);
     }
 
-    public override void Update()
+    public new void Update()
     {
-        base.Update();
         transform.localScale = new Vector3(scaleOverLifetime.Evaluate(lifePercent), scaleOverLifetime.Evaluate(lifePercent), 1);
+        Tick();
     }
 }

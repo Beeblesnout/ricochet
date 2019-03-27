@@ -9,15 +9,14 @@ public class CarryFlag : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("TeamBase"))
+        if (other.gameObject.tag == "TeamBase")
         {
             locationTeamBaseID = other.GetComponent<TeamBase>().baseTeamID;
-            Debug.Log(locationTeamBaseID);
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("TeamBase"))
+        if (other.gameObject.tag == "TeamBase")
         {
             locationTeamBaseID = 0;
         }
