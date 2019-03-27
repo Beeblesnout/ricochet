@@ -168,7 +168,7 @@ MonoBehaviour:
   gunRotateRate: 0.25
   gunHeadOffset: {x: 0, y: 0, z: 0}
   gunPosRate: 0.25
-  health: {fileID: 0}
+  health: {fileID: 8930017846877760375}
   rb: {fileID: 0}
   moveInput: {x: 0, y: 0}
   lookInput: {x: 0, y: 0}
@@ -9956,7 +9956,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7ed924e9d14438042b37863ca4c0ef36, type: 2}
   index: 0
   gun: {fileID: 11400000, guid: cb80a16a2a747ec4a8d093a11db2102c, type: 2}
-  gunText: {fileID: 0}
   canShoot: 0
   queueShoot: 0
   motion: {fileID: 5880656403446961469}

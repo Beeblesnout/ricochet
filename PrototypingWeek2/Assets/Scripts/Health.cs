@@ -21,7 +21,6 @@ public class Health : MonoBehaviour
     private Material deadCharMat;
     Material defMat;
     
-    // public event float hurt {}
     public UnityEvent onDeath;
 
     void Awake()
@@ -55,6 +54,7 @@ public class Health : MonoBehaviour
         StartCoroutine(DamageAnim(damage));
     }
 
+    // TODO: do this without a coroutine
     IEnumerator DamageAnim(float damage)
     {
         Material damageMat = new Material(defMat.shader);
@@ -90,9 +90,3 @@ public class Health : MonoBehaviour
         }
     }
 }
-
-// public class HurtEventArgs
-// {
-//     public HurtEventArgs(GameObject d) { dealer = d; }
-//     public GameObject dealer { get; }
-// }

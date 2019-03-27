@@ -5,14 +5,14 @@ using UnityEngine;
 public class GunController : MonoBehaviour
 {
     public bool isPlayer;
-    public Gun[] guns;
+    public List<Gun> guns;
     public int index;
     public Gun gun;
 
     [SerializeField]
     float shotTime;
     public bool canShoot;
-    public bool queueShoot;
+    public bool shooting;
     public CharacterMotion motion;
     public Transform gunEnd;
     public LayerMask mask;
@@ -30,19 +30,17 @@ public class GunController : MonoBehaviour
         ChangeGun(0);
     }
 
-    void Update()
-    {
-        if (Time.time - shotTime > gun.fireRate)
-            canShoot = true;
-    }
-
     private void FixedUpdate()
     {
-        if (queueShoot)
+        if (shooting && canShoot)
         {
             Shoot();
-            queueShoot = false;
             canShoot = false;
+        }
+
+        if (!canShoot && Time.time - shotTime > gun.fireRate)
+        {
+            canShoot = true;
         }
     }
 
@@ -82,20 +80,32 @@ public class GunController : MonoBehaviour
                 Debug.Log("Invalid gun");
                 break;
         }
+        else
+        {
+          List<Shot> shots = new List<Shot>();
+          for (int i = 0; i < gun.shotCount; i++)
+              shots.Add(new Shot(motion.gameObject, gunEnd.position, gun.CalcSpreadRot(gunEnd), gun.damage, gun.ricochets, gun.shotRange, mask));
+          ShotsManager.Instance.RecieveShots(shots);
+        }
         
     }
 
     public void ScrollGun(int i)
     {
-        index = (int)Mathf.Repeat(index + i, guns.Length);
+        index = (int)Mathf.Repeat(index + i, guns.Count);
         ChangeGun(index);
     }
 
     public void SetGun(int i)
     {
-        if (i < 0 || i >= guns.Length) return;
+        if (i < 0 || i >= guns.Count) return;
         index = i;
         ChangeGun(index);
+    }
+
+    public int GetGunID()
+    {
+        return guns.IndexOf(gun);
     }
 
     public void ChangeGun(int i)
