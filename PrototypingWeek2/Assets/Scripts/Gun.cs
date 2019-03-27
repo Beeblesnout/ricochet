@@ -15,6 +15,7 @@ public class Gun : ScriptableObject
     public int particleEmitCount;
     public Mesh mesh;
     public AudioClip shotSound;
+    public bool isProjectile;
 
     public Vector3 CalcSpreadRot(Transform gunEnd)
     {
