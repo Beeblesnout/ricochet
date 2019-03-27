@@ -9953,16 +9953,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c6eff64cec3e02b46b1efd9abde667ce, type: 2}
   - {fileID: 11400000, guid: 9624552e6c802ed4c97ad57a0666d647, type: 2}
   - {fileID: 11400000, guid: 1ec289ccf7ae250499568aeb99e0d237, type: 2}
+  - {fileID: 11400000, guid: 975ffc3a5477c80448f4bafae9b737f6, type: 2}
   - {fileID: 11400000, guid: 7ed924e9d14438042b37863ca4c0ef36, type: 2}
   index: 0
   gun: {fileID: 11400000, guid: cb80a16a2a747ec4a8d093a11db2102c, type: 2}
+  shotTime: 0
   canShoot: 0
-  queueShoot: 0
+  shooting: 0
   motion: {fileID: 5880656403446961469}
   gunEnd: {fileID: 5701614992717478597}
   mask:
     serializedVersion: 2
     m_Bits: 3584
+  grenade: {fileID: 8521483041312749796, guid: 8eeae4b707dd3bc4186a7eea334d0c85, type: 3}
   shootSound: {fileID: 5701614992717478596}
   muzzleFlash: {fileID: 5701614992717478598}
   smokePuff: {fileID: 5701614993544540396}

@@ -8,6 +8,9 @@ public class LevelManager : SingletonBase<LevelManager>
     public GameObject level1;
     public GameObject level2;
 
+    public Transform team1spawn;
+    public Transform team2spawn;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1)) 

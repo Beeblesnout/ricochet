@@ -46,7 +46,7 @@ public class GunController : MonoBehaviour
 
     public void Shoot()
     {
-        if(gun.isProjectile)
+        if(!gun.isProjectile)
         {
             List<Shot> shots = new List<Shot>();
             for (int i = 0; i < gun.shotCount; i++)
