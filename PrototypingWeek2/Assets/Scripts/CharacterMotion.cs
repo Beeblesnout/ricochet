@@ -6,7 +6,7 @@ using UnityEngine;
 public class CharacterMotion : IDedObject<CharacterMotion>
 {
     public Transform head;
-    public bool disableMovement;
+    public bool disableMovement = false;
     public float accel;
     public float deccel;
     public float maxSpeed;
@@ -48,7 +48,7 @@ public class CharacterMotion : IDedObject<CharacterMotion>
     Vector3 vel;
     private void FixedUpdate()
     {
-        if (!player) return;
+        if (!player || disableMovement) return;
 
         // Look Rotation
         head.Rotate(Vector3.up, lookInput.x * lookSensitivity, Space.World);

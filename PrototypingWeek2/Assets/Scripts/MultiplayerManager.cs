@@ -39,5 +39,5 @@ public class MultiplayerManager : SingletonBase<MultiplayerManager>
 
 public enum NetMessageType
 {
-    PlayerAliveState, PlayerPosition, PlayerEulerAngles, PlayerShootState, PlayerGunID
+    PlayerAliveState, PlayerPosition, PlayerEulerAngles, PlayerShootState, PlayerGunID, PlayerTeam
 }

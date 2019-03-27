@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class PlayerUser : NetUser
 {
+    public int teamID;
+
     public static PlayerUser Local { get; private set; }
     public GameObject playerPrefab;
     public GameObject characterPrefab;
@@ -21,6 +23,7 @@ public class PlayerUser : NetUser
     private Vector2 playerEulerAngles;
     private bool shooting;
     private int lastGunID;
+    private int lastTeamID;
 
     private void OnEnable()
     {
@@ -32,6 +35,11 @@ public class PlayerUser : NetUser
     {
         MultiplayerManager.onMessage -= OnMessage;
         Net.PlayerConnectedEvent -= OnPlayerConnected;
+    }
+
+    void Start()
+    {
+        teamID = UnityEngine.Random.Range(1, 3);
     }
 
     private async void OnPlayerConnected(NetConnection connection)
@@ -66,6 +74,12 @@ public class PlayerUser : NetUser
             message.Write(ConnectID);
             message.Write(playerGun.GetGunID());
             message.Send(connection);
+
+            //send team
+            message = new Message(NetMessageType.PlayerTeam);
+            message.Write(ConnectID);
+            message.Write(teamID);
+            message.Send();
         }
     }
 
@@ -82,7 +96,7 @@ public class PlayerUser : NetUser
                 isAlive = message.Read<bool>();
             }
         }
-        else if(type == NetMessageType.PlayerPosition)
+        else if (type == NetMessageType.PlayerPosition)
         {
             if (IsMine) return;
 
@@ -95,7 +109,7 @@ public class PlayerUser : NetUser
                 playerPosition = new Vector3(x, y, z);
             }
         }
-        else if(type == NetMessageType.PlayerEulerAngles)
+        else if (type == NetMessageType.PlayerEulerAngles)
         {
             if (IsMine) return;
 
@@ -107,7 +121,7 @@ public class PlayerUser : NetUser
                 playerEulerAngles = new Vector2(x, y);
             }
         }
-        else if(type == NetMessageType.PlayerShootState)
+        else if (type == NetMessageType.PlayerShootState)
         {
             if (IsMine) return;
 
@@ -117,7 +131,7 @@ public class PlayerUser : NetUser
                 shooting = message.Read<bool>();
             }
         }
-        else if(type == NetMessageType.PlayerGunID)
+        else if (type == NetMessageType.PlayerGunID)
         {
             if (IsMine) return;
 
@@ -125,6 +139,16 @@ public class PlayerUser : NetUser
             if (message.Read<long>() == ConnectID)
             {
                 playerGun?.SetGun(message.Read<int>());
+            }
+        }
+        else if (type == NetMessageType.PlayerTeam)
+        {
+            if (IsMine) return;
+
+            message.Rewind();
+            if (message.Read<long>() == ConnectID)
+            {
+                teamID = message.Read<int>();
             }
         }
     }
@@ -190,6 +214,16 @@ public class PlayerUser : NetUser
                     message.Write(lastGunID);
                     message.Send();
                 }
+
+                //sync team
+                if (teamID != lastTeamID)
+                {
+                    lastTeamID = teamID;
+                    Message message = new Message(NetMessageType.PlayerTeam);
+                    message.Write(ConnectID);
+                    message.Write(teamID);
+                    message.Send();
+                }
             }
         }
         else
@@ -209,6 +243,7 @@ public class PlayerUser : NetUser
             {
                 player = Instantiate(playerPrefab);
                 player.GetComponent<Player>().user = this;
+                player.transform.position = LevelManager.Instance.GetRandomSpawnLoc(teamID);
             }
             else
             {
@@ -228,5 +263,11 @@ public class PlayerUser : NetUser
     {
         await Task.Delay(1000);
         Destroy(player);
+    }
+    
+    public void JoinTeam(int newTeam)
+    {
+        teamID = newTeam;
+        if (player) player.transform.position = LevelManager.Instance.GetRandomSpawnLoc(newTeam);
     }
 }

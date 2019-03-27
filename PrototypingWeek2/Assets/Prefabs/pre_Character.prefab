@@ -163,7 +163,7 @@ MonoBehaviour:
   maxSpeed: 10
   clampRate: 0.15
   lookSensitivity: 1.35
-  jumpStrength: 10
+  jumpStrength: 5
   gun: {fileID: 2422375936160109029}
   gunRotateRate: 0.25
   gunHeadOffset: {x: 0, y: 0, z: 0}

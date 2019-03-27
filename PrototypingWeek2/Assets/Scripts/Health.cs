@@ -75,6 +75,7 @@ public class Health : MonoBehaviour
     void Kill()
     {
         mesh.material = deadCharMat;
+        GetComponent<CharacterMotion>().disableMovement = true;
         onDeath.Invoke();
     }
 

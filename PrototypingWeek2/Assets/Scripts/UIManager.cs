@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 // using Popcron.console;
 // using Console = Console.Console;
@@ -13,6 +14,8 @@ public class UIManager : SingletonBase<UIManager>
     public LineRenderer aimReflectLine;
     public TMP_Text fpsCounter;
     public TMP_Text currentGunText;
+    public TMP_Text teamText;
+    public Slider healthBar;
 
     public CharacterMotion playerMotion;
     public GunController playerGun;
@@ -36,7 +39,12 @@ public class UIManager : SingletonBase<UIManager>
     {
         fpsCounter.text = 1f / Time.deltaTime + "";
 
-        if (playerGun) SetCrosshairPos();
+        if (playerGun)
+        {
+            SetCrosshairPos();
+            currentGunText.text = playerGun.gun.gunName;
+        }
+        if (playerHealth) healthBar.value = Mathf.Clamp01(playerHealth.displayHealth / playerHealth.maxHealth);
 
         if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
     }

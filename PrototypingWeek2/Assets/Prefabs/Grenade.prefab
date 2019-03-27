@@ -124,7 +124,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionRadius: {fileID: 1144096510}
-  explosion: {fileID: 0}
   explosionObject: {fileID: 1478407990793677665, guid: 41239d858f5ef4a459eb4ba2d7d3e0e8,
     type: 3}
   explodeTimer: 2.5
@@ -184,13 +183,13 @@ TrailRenderer:
   m_Time: 0.3
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.125
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
