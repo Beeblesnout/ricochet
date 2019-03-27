@@ -941,7 +941,7 @@ GameObject:
   m_Component:
   - component: {fileID: 425578924}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: blue team spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2745,6 +2745,16 @@ PrefabInstance:
       propertyPath: level2
       value: 
       objectReference: {fileID: 6052174501997633643}
+    - target: {fileID: 646941088702166315, guid: 43ccfb66c6744ac41852b0f6397b089c,
+        type: 3}
+      propertyPath: team1spawn
+      value: 
+      objectReference: {fileID: 1352586081}
+    - target: {fileID: 646941088702166315, guid: 43ccfb66c6744ac41852b0f6397b089c,
+        type: 3}
+      propertyPath: team2spawn
+      value: 
+      objectReference: {fileID: 425578924}
     - target: {fileID: 646941089264380190, guid: 43ccfb66c6744ac41852b0f6397b089c,
         type: 3}
       propertyPath: shotCountText
