@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee2e73ea348efab40bf4f3e5ecc94833, type: 3}
+  m_Name: gun_GrenadeLauncher
+  m_EditorClassIdentifier: 
+  gunName: Grenade Launcher
+  damage: 30
+  fireRate: 0.75
+  ricochets: 0
+  shotCount: 1
+  shotRange: 20
+  bulletSpread: 0
+  particleEmitCount: 15
+  mesh: {fileID: 4300000, guid: 154151be04be59a44a2fe1d18b58c8bf, type: 3}
+  shotSound: {fileID: 8300000, guid: e10fc9939aa768a4e9156d2b774da6de, type: 3}
+  isProjectile: 1

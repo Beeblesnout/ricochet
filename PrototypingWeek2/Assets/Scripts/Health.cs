@@ -77,4 +77,16 @@ public class Health : MonoBehaviour
         mesh.material = deadCharMat;
         onDeath.Invoke();
     }
+
+    //This onTriggerEnter function allows the grenades to damage anything that has this script
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.GetComponent<Grenade>() != null)
+        {
+            Grenade grenade = other.gameObject.GetComponent<Grenade>();
+            float grenadeDamage = grenade.damage;
+            Debug.Log("DAMAGE");
+            Damage(grenadeDamage);
+        }
+    }
 }

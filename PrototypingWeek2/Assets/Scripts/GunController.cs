@@ -9,13 +9,15 @@ public class GunController : MonoBehaviour
     public int index;
     public Gun gun;
 
+    [SerializeField]
     float shotTime;
     public bool canShoot;
     public bool shooting;
     public CharacterMotion motion;
     public Transform gunEnd;
     public LayerMask mask;
-    
+
+    public GameObject grenade;
     public AudioSource shootSound;
     public ParticleSystem muzzleFlash;
     public ParticleSystem smokePuff;
@@ -44,16 +46,48 @@ public class GunController : MonoBehaviour
 
     public void Shoot()
     {
-        List<Shot> shots = new List<Shot>();
-        for (int i = 0; i < gun.shotCount; i++)
-            shots.Add(new Shot(motion.gameObject, gunEnd.position, gun.CalcSpreadRot(gunEnd), gun.damage, gun.ricochets, gun.shotRange, mask));
-        ShotsManager.Instance.RecieveShots(shots);
+        switch(gun.isProjectile)
+        {
+            case false:
+                List<Shot> shots = new List<Shot>();
+                for (int i = 0; i < gun.shotCount; i++)
+                    shots.Add(new Shot(motion.gameObject, gunEnd, gun.CalcSpreadRot(gunEnd), gun.damage, gun.ricochets, gun.shotRange, mask));
+                ShotsManager.Instance.RecieveShots(shots);
 
-        shootSound.Stop();
-        shootSound.PlayOneShot(gun.shotSound);
-        muzzleFlash.Emit(gun.particleEmitCount);
-        smokePuff.Emit(gun.particleEmitCount);
-        shotTime = Time.time;
+                shootSound.Stop();
+                shootSound.PlayOneShot(gun.shotSound);
+                muzzleFlash.Emit(gun.particleEmitCount);
+                smokePuff.Emit(gun.particleEmitCount);
+                shotTime = Time.time;
+                break;
+
+            case true:
+                Debug.Log("I am using projectile");
+                for (int i = 0; i < gun.shotCount; i++)
+                {
+                    GameObject spawnedGrenade = Instantiate(grenade, gunEnd.position, gunEnd.rotation);
+                    Grenade spawnedScript = spawnedGrenade.GetComponent<Grenade>();
+                    spawnedScript.damage = gun.damage;
+                    spawnedScript.velocity = gun.shotRange;
+                }
+                shootSound.PlayOneShot(gun.shotSound);
+                muzzleFlash.Emit(gun.particleEmitCount);
+                smokePuff.Emit(gun.particleEmitCount);
+                shotTime = Time.time;
+                break;
+
+            default:
+                Debug.Log("Invalid gun");
+                break;
+        }
+        else
+        {
+          List<Shot> shots = new List<Shot>();
+          for (int i = 0; i < gun.shotCount; i++)
+              shots.Add(new Shot(motion.gameObject, gunEnd.position, gun.CalcSpreadRot(gunEnd), gun.damage, gun.ricochets, gun.shotRange, mask));
+          ShotsManager.Instance.RecieveShots(shots);
+        }
+        
     }
 
     public void ScrollGun(int i)
