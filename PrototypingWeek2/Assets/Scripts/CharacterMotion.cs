@@ -31,7 +31,6 @@ public class CharacterMotion : IDedObject<CharacterMotion>
     public Vector2 prevLookInput;
     [HideInInspector]
     public bool queueJump;
-    [HideInInspector]
     public Vector3 headFlatForward;
     private Player player;
 
@@ -51,7 +50,7 @@ public class CharacterMotion : IDedObject<CharacterMotion>
         if (!player || disableMovement) return;
 
         // Look Rotation
-        head.Rotate(Vector3.up, lookInput.x * lookSensitivity, Space.World);
+        transform.Rotate(Vector3.up, lookInput.x * lookSensitivity, Space.World);
         head.Rotate(head.right, -lookInput.y * lookSensitivity, Space.World);
 
         if (health.alive) {
@@ -76,8 +75,8 @@ public class CharacterMotion : IDedObject<CharacterMotion>
         }
 
         // Gun Over-Rotation
-        gun.transform.Rotate(Vector3.up, lookInput.x * lookSensitivity * 2, Space.World);
-        gun.transform.Rotate(head.right, -lookInput.y * lookSensitivity * 2, Space.World);
+        //gun.transform.Rotate(Vector3.up, lookInput.x * lookSensitivity * 2, Space.World);
+        //gun.transform.Rotate(head.right, -lookInput.y * lookSensitivity * 2, Space.World);
 
         // Gun Rotation
         RaycastHit lookHit;
