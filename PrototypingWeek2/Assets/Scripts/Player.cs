@@ -9,6 +9,14 @@ public class Player : MonoBehaviour
     Health health;
     GunController gun;
 
+    //Bool determining if player can jump with associated get/set method
+    private bool canJump = true;
+    public bool CanJump
+    {
+        get { return canJump; }
+        set { canJump = value; }
+    }
+
     bool disableInput;
 
     void Awake()
@@ -36,7 +44,11 @@ public class Player : MonoBehaviour
             motor.lookInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
             // Jump Input
-            motor.queueJump ^= Input.GetButtonDown("Jump");
+            if(Input.GetButtonDown("Jump") && canJump == true)
+            {
+                motor.queueJump = true;
+                canJump = false;
+            } 
 
             // Gun Scrolling
             if (Input.mouseScrollDelta.y > 0)
