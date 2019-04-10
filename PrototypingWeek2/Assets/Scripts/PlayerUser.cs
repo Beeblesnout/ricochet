@@ -10,17 +10,17 @@ public class PlayerUser : NetUser
     public int teamID;
 
     public static PlayerUser Local { get; private set; }
-    public GameObject playerPrefab;
-    public GameObject characterPrefab;
-    public GameObject player { get; private set; }
-    GunController playerGun;
+    public GameObject avatarPrefab;
+    public GameObject dummyAvatarPrefab;
+    public GameObject avatar { get; private set; }
+    GunController avatarGun;
     public bool isAlive = false;
     private bool lastAlive;
     private Vector3 lastPosition;
     private Vector2 lastEulerAngles;
     private bool lastShootState;
-    private Vector3 playerPosition;
-    private Vector2 playerEulerAngles;
+    private Vector3 avatarPosition;
+    private Vector2 avatarEulerAngles;
     private bool shooting;
     private int lastGunID;
     private int lastTeamID;
@@ -47,36 +47,36 @@ public class PlayerUser : NetUser
         await Task.Delay(50);
 
         //send alive state
-        Message message = new Message(NetMessageType.PlayerAliveState);
+        Message message = new Message(NMType.PlayerAliveState);
         message.Write(ConnectID);
         message.Write(isAlive);
         message.Send(connection);
 
-        if (player)
+        if (avatar)
         {
             //send position
-            message = new Message(NetMessageType.PlayerPosition);
+            message = new Message(NMType.PlayerPosition);
             message.Write(ConnectID);
-            message.Write(player.transform.position.x);
-            message.Write(player.transform.position.y);
-            message.Write(player.transform.position.z);
+            message.Write(avatar.transform.position.x);
+            message.Write(avatar.transform.position.y);
+            message.Write(avatar.transform.position.z);
             message.Send(connection);
             
             //send rotation
-            message = new Message(NetMessageType.PlayerEulerAngles);
+            message = new Message(NMType.PlayerEulerAngles);
             message.Write(ConnectID);
-            message.Write(player.transform.eulerAngles.x);
-            message.Write(player.transform.eulerAngles.y);
+            message.Write(avatar.transform.eulerAngles.x);
+            message.Write(avatar.transform.eulerAngles.y);
             message.Send(connection);
 
             //send gun
-            message = new Message(NetMessageType.PlayerGunID);
+            message = new Message(NMType.PlayerGunID);
             message.Write(ConnectID);
-            message.Write(playerGun.GetGunID());
+            message.Write(avatarGun.GetGunID());
             message.Send(connection);
 
             //send team
-            message = new Message(NetMessageType.PlayerTeam);
+            message = new Message(NMType.PlayerTeam);
             message.Write(ConnectID);
             message.Write(teamID);
             message.Send();
@@ -85,8 +85,8 @@ public class PlayerUser : NetUser
 
     private void OnMessage(Message message)
     {
-        NetMessageType type = (NetMessageType)message.Type;
-        if (type == NetMessageType.PlayerAliveState)
+        NMType type = (NMType)message.Type;
+        if (type == NMType.PlayerAliveState)
         {
             if (IsMine) return;
 
@@ -96,7 +96,7 @@ public class PlayerUser : NetUser
                 isAlive = message.Read<bool>();
             }
         }
-        else if (type == NetMessageType.PlayerPosition)
+        else if (type == NMType.PlayerPosition)
         {
             if (IsMine) return;
 
@@ -106,10 +106,10 @@ public class PlayerUser : NetUser
                 float x = message.Read<float>();
                 float y = message.Read<float>();
                 float z = message.Read<float>();
-                playerPosition = new Vector3(x, y, z);
+                avatarPosition = new Vector3(x, y, z);
             }
         }
-        else if (type == NetMessageType.PlayerEulerAngles)
+        else if (type == NMType.PlayerEulerAngles)
         {
             if (IsMine) return;
 
@@ -118,10 +118,10 @@ public class PlayerUser : NetUser
             {
                 float x = message.Read<float>();
                 float y = message.Read<float>();
-                playerEulerAngles = new Vector2(x, y);
+                avatarEulerAngles = new Vector2(x, y);
             }
         }
-        else if (type == NetMessageType.PlayerShootState)
+        else if (type == NMType.PlayerShootState)
         {
             if (IsMine) return;
 
@@ -131,17 +131,17 @@ public class PlayerUser : NetUser
                 shooting = message.Read<bool>();
             }
         }
-        else if (type == NetMessageType.PlayerGunID)
+        else if (type == NMType.PlayerGunID)
         {
             if (IsMine) return;
 
             message.Rewind();
             if (message.Read<long>() == ConnectID)
             {
-                playerGun?.SetGun(message.Read<int>());
+                avatarGun?.SetGun(message.Read<int>());
             }
         }
-        else if (type == NetMessageType.PlayerTeam)
+        else if (type == NMType.PlayerTeam)
         {
             if (IsMine) return;
 
@@ -163,20 +163,20 @@ public class PlayerUser : NetUser
             {
                 lastAlive = !lastAlive;
 
-                Message message = new Message(NetMessageType.PlayerAliveState);
+                Message message = new Message(NMType.PlayerAliveState);
                 message.Write(ConnectID);
                 message.Write(isAlive);
                 message.Send();
             }
 
             //player is alive so send player data
-            if (player)
+            if (avatar)
             {
                 //sync position
-                if  (player.transform.position != lastPosition)
+                if  (avatar.transform.position != lastPosition)
                 {
-                    lastPosition = player.transform.position;
-                    Message message = new Message(NetMessageType.PlayerPosition);
+                    lastPosition = avatar.transform.position;
+                    Message message = new Message(NMType.PlayerPosition);
                     message.Write(ConnectID);
                     message.Write(lastPosition.x);
                     message.Write(lastPosition.y);
@@ -188,7 +188,7 @@ public class PlayerUser : NetUser
                 if  (Camera.main.transform.eulerAngles != (Vector3)lastEulerAngles)
                 {
                     lastEulerAngles = Camera.main.transform.eulerAngles;
-                    Message message = new Message(NetMessageType.PlayerEulerAngles);
+                    Message message = new Message(NMType.PlayerEulerAngles);
                     message.Write(ConnectID);
                     message.Write(lastEulerAngles.x);
                     message.Write(lastEulerAngles.y);
@@ -196,20 +196,20 @@ public class PlayerUser : NetUser
                 }
 
                 //sync shoot
-                if (playerGun.shooting != lastShootState)
+                if (avatarGun.shooting != lastShootState)
                 {
-                    lastShootState = playerGun.shooting;
-                    Message message = new Message(NetMessageType.PlayerShootState);
+                    lastShootState = avatarGun.shooting;
+                    Message message = new Message(NMType.PlayerShootState);
                     message.Write(ConnectID);
                     message.Write(lastShootState);
                     message.Send();
                 }
 
                 //sync gun
-                if (playerGun.GetGunID() != lastGunID)
+                if (avatarGun.GetGunID() != lastGunID)
                 {
-                    lastGunID = playerGun.GetGunID();
-                    Message message = new Message(NetMessageType.PlayerGunID);
+                    lastGunID = avatarGun.GetGunID();
+                    Message message = new Message(NMType.PlayerGunID);
                     message.Write(ConnectID);
                     message.Write(lastGunID);
                     message.Send();
@@ -219,7 +219,7 @@ public class PlayerUser : NetUser
                 if (teamID != lastTeamID)
                 {
                     lastTeamID = teamID;
-                    Message message = new Message(NetMessageType.PlayerTeam);
+                    Message message = new Message(NMType.PlayerTeam);
                     message.Write(ConnectID);
                     message.Write(teamID);
                     message.Send();
@@ -228,46 +228,49 @@ public class PlayerUser : NetUser
         }
         else
         {
-            if (player)
+            if (avatar)
             {
-                playerGun.shooting = shooting;
-                player.transform.position = playerPosition;
-                player.transform.eulerAngles = new Vector3(0, playerEulerAngles.y, 0);
-                player.transform.GetChild(1).localEulerAngles = new Vector3(playerEulerAngles.x, 0, 0);
+                // set position
+                avatar.transform.position = avatarPosition;
+                // set rotation
+                avatar.transform.eulerAngles = new Vector3(0, avatarEulerAngles.y, 0);
+                avatar.transform.GetChild(1).localEulerAngles = new Vector3(avatarEulerAngles.x, 0, 0);
+                // set shooting
+                avatarGun.shooting = shooting;
             }
         }
 
-        if (player == null && isAlive)
+        if (avatar == null && isAlive)
         {
             if (IsMine)
             {
-                player = Instantiate(playerPrefab);
-                player.GetComponent<Player>().user = this;
-                player.transform.position = LevelManager.Instance.GetRandomSpawnLoc(teamID);
+                avatar = Instantiate(avatarPrefab);
+                avatar.GetComponent<Player>().user = this;
+                avatar.transform.position = LevelManager.Instance.GetRandomSpawnLoc(teamID);
             }
             else
             {
-                player = Instantiate(characterPrefab);
+                avatar = Instantiate(dummyAvatarPrefab);
             }
-            player.GetComponent<Health>().onDeath.AddListener(KillPlayer);
-            playerGun = player.GetComponentInChildren<GunController>();
-            UIManager.Instance.LinkUIElements(player.GetComponent<CharacterMotion>());
+            avatar.GetComponent<Health>().onDeath.AddListener(KillPlayer);
+            avatarGun = avatar.GetComponentInChildren<GunController>();
+            UIManager.Instance.LinkUIElements(avatar.GetComponent<CharacterMotion>());
         }
-        else if (player != null && !isAlive)
+        else if (avatar != null && !isAlive)
         {
-            Destroy(player);
+            Destroy(avatar);
         }
     }
 
     private async void KillPlayer()
     {
         await Task.Delay(1000);
-        Destroy(player);
+        Destroy(avatar);
     }
     
     public void JoinTeam(int newTeam)
     {
         teamID = newTeam;
-        if (player) player.transform.position = LevelManager.Instance.GetRandomSpawnLoc(newTeam);
+        if (avatar) avatar.transform.position = LevelManager.Instance.GetRandomSpawnLoc(newTeam);
     }
 }
