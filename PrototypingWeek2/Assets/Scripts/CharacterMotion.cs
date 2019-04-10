@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CharacterMotion : IDedObject<CharacterMotion>
 {
+    public int playerTeamID;
+
     public Transform head;
     public bool disableMovement = false;
     public float accel;
@@ -32,11 +34,9 @@ public class CharacterMotion : IDedObject<CharacterMotion>
     [HideInInspector]
     public bool queueJump;
     public Vector3 headFlatForward;
-    private Player player;
 
     void Start()
     {
-        player = GetComponent<Player>();
         rb = GetComponent<Rigidbody>();
         health = GetComponent<Health>();
         health.onDeath.AddListener(KillPop);

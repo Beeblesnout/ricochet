@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: gun_SMG
   m_EditorClassIdentifier: 
   gunName: SMG
-  damage: 1
+  damage: 0.1
   fireRate: 0.02
   ricochets: 2
   shotCount: 1
