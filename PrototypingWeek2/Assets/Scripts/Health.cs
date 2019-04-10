@@ -12,14 +12,12 @@ public class Health : MonoBehaviour
     public float displayHealth;
     public AnimationCurve healthLerpCurve;
     public bool alive;
-
-    [SerializeField]
-    private float damageAnimDuration;
+    
+    public float damageAnimDuration;
     public AnimationCurve healthAnimCurve;
-
-    [SerializeField]
-    private Material deadCharMat;
-    Material defMat;
+    
+    public Material deadCharMat;
+    Material defaultMat;
     
     public UnityEvent onDeath;
 
@@ -32,7 +30,8 @@ public class Health : MonoBehaviour
     {
         health = maxHealth;
         alive = true;
-        defMat = mesh.material;
+        defaultMat = mesh.material;
+        onDeath.AddListener(((FlagBaseController)FindObjectOfType(typeof(FlagBaseController))).OnCarryerDie);
     }
 
     void Update()
@@ -49,7 +48,7 @@ public class Health : MonoBehaviour
     {
         Debug.Log("Damage: " + damage);
         health -= damage;
-        mesh.material = defMat;
+        mesh.material = defaultMat;
         StopCoroutine(DamageAnim(0));
         StartCoroutine(DamageAnim(damage));
     }
@@ -57,7 +56,7 @@ public class Health : MonoBehaviour
     // TODO: do this without a coroutine
     IEnumerator DamageAnim(float damage)
     {
-        Material damageMat = new Material(defMat.shader);
+        Material damageMat = new Material(defaultMat.shader);
         damageMat.color = Color.red;
         mesh.material = damageMat;
 
@@ -65,11 +64,11 @@ public class Health : MonoBehaviour
         while (Time.time - startTime < damageAnimDuration)
         {
             float prog = (Time.time - startTime) / damageAnimDuration;
-            damageMat.color = Color.Lerp(Color.red, defMat.color, healthAnimCurve.Evaluate(prog));
+            damageMat.color = Color.Lerp(Color.red, defaultMat.color, healthAnimCurve.Evaluate(prog));
             yield return new WaitForEndOfFrame();
         }
 
-        mesh.material = defMat;
+        mesh.material = defaultMat;
     }
 
     void Kill()

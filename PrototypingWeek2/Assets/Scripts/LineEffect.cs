@@ -21,8 +21,10 @@ public class LineEffect : Effect
     public void Activate(Vector3[] points, bool finalShot)
     {
         isDissipating = finalShot;
-        line.positionCount = points.Length + (int)Mathf.Pow(2, lineRes) - 1;
-        line.SetPositions(ShotsManager.TessLine(points, lineRes));
+        //line.positionCount = points.Length + (int)Mathf.Pow(2, lineRes) - 1;
+        line.positionCount = points.Length;
+        //line.SetPositions(ShotsManager.TessLine(points, lineRes));
+        line.SetPositions(points);
         Activate();
     }
     

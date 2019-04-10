@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6494133574177622052}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.9000001, y: -0.7900002, z: 0}
+  m_LocalPosition: {x: -0.82, y: 2, z: 0}
   m_LocalScale: {x: 0.3, y: 2, z: 0.3}
   m_Children: []
   m_Father: {fileID: 6494133574716266657}
@@ -118,7 +118,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6494133574295666365}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 2.6811001, y: 0.87699986, z: 0}
+  m_LocalPosition: {x: 0.16, y: 3.57, z: 0}
   m_LocalScale: {x: 0.30000013, y: 1.4680005, z: 0.27}
   m_Children: []
   m_Father: {fileID: 6494133574716266657}
@@ -191,12 +191,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6494133574716266657}
-  - component: {fileID: 6494133574716266656}
+  - component: {fileID: 6448624750763126387}
   - component: {fileID: 6494133574716266671}
   m_Layer: 0
   m_Name: Flagbase
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -208,7 +208,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6494133574716266658}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.9000001, y: 2.7800002, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6494133574177622051}
@@ -217,7 +217,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6494133574716266656
+--- !u!114 &6448624750763126387
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,16 +226,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 6494133574716266658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8bbded68df71c848a89cf471fd7c2e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 10fee006ac1db5240a9468f710900882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flagCloth: {fileID: 6494133575481524541}
-  flagCatcher: {fileID: 0}
+  flagCarryer: {fileID: 0}
+  flagCaptured: 0
+  isNewFlagAvailable: 0
+  teamScores: 
+  timeLeft: 0
+  roundTime: 0
+  flagCloth: {fileID: 0}
+  carryFlagPrefab: {fileID: 0}
+  carryFlag: {fileID: 0}
   onFlagCaptured:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: FlagEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  onFlagInRightTeamBase:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: FlagEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!136 &6494133574716266671
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -246,10 +256,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 1.0557535
-  m_Height: 4.267448
+  m_Radius: 1
+  m_Height: 4
   m_Direction: 1
-  m_Center: {x: 2.715045, y: -0.6199529, z: -0.0029418468}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!1 &6494133575481524541
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,7 +286,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6494133575481524541}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 3.1100001, y: -0.08000016, z: 0.0011973847}
+  m_LocalPosition: {x: 0.5, y: 2.6, z: 0}
   m_LocalScale: {x: 0.18, y: 1, z: 0.15000007}
   m_Children: []
   m_Father: {fileID: 6494133574716266657}
@@ -328,8 +338,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -0.0000009536743, y: 0, z: 0}
-    m_Extent: {x: 5, y: 0.00000017881403, z: 5.0000033}
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 5, y: 0.00000017881406, z: 5.0000014}
   m_DirtyAABB: 0
 --- !u!183 &6494133575481524540
 Cloth:

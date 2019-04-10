@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8407602519066635693}
-  - component: {fileID: 8407602519066635694}
   - component: {fileID: 8407602519066635695}
+  - component: {fileID: 5229556044354096410}
   m_Layer: 15
   m_Name: pre_TeamBase
   m_TagString: TeamBase
@@ -32,19 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8407602519066635694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8407602519066635664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 598e16eb425e6e84a8797111c18155db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseTeamID: 0
 --- !u!65 &8407602519066635695
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58,3 +45,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 15.606718, y: 5.0866137, z: 12.195086}
   m_Center: {x: 12.238309, y: -0.27653742, z: -8.3994055}
+--- !u!114 &5229556044354096410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8407602519066635664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a82b06381d936f4e8315724612b7d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseTeamID: 0

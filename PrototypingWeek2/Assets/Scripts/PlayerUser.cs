@@ -13,15 +13,25 @@ public class PlayerUser : NetUser
     public GameObject avatarPrefab;
     public GameObject dummyAvatarPrefab;
     public GameObject avatar { get; private set; }
-    GunController avatarGun;
+    private GunController p_avatarGun;
+    public GunController avatarGun {
+        get
+        {
+            if (p_avatarGun == null) p_avatarGun = avatar.GetComponentInChildren<GunController>();
+            return p_avatarGun;
+        }
+        private set {
+            p_avatarGun = value;
+        }
+    }
     public bool isAlive = false;
     private bool lastAlive;
-    private Vector3 lastPosition;
-    private Vector2 lastEulerAngles;
-    private bool lastShootState;
     private Vector3 avatarPosition;
+    private Vector3 lastPosition;
     private Vector2 avatarEulerAngles;
+    private Vector2 lastEulerAngles;
     private bool shooting;
+    private bool lastShootState;
     private int lastGunID;
     private int lastTeamID;
 
@@ -138,7 +148,7 @@ public class PlayerUser : NetUser
             message.Rewind();
             if (message.Read<long>() == ConnectID)
             {
-                avatarGun?.SetGun(message.Read<int>());
+                avatarGun.SetGun(message.Read<int>());
             }
         }
         else if (type == NMType.PlayerTeam)
@@ -158,7 +168,6 @@ public class PlayerUser : NetUser
         if (IsMine)
         {
             Local = this;
-            isAlive = true;
             if (isAlive != lastAlive)
             {
                 lastAlive = !lastAlive;
@@ -239,13 +248,14 @@ public class PlayerUser : NetUser
                 avatarGun.shooting = shooting;
             }
         }
-
+        
         if (avatar == null && isAlive)
         {
             if (IsMine)
             {
                 avatar = Instantiate(avatarPrefab);
                 avatar.GetComponent<Player>().user = this;
+                avatar.GetComponent<CharacterMotion>().teamID = teamID;
                 avatar.transform.position = LevelManager.Instance.GetRandomSpawnLoc(teamID);
             }
             else

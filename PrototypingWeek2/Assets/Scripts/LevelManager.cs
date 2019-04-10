@@ -5,61 +5,35 @@ using UnityEngine;
 
 public class LevelManager : SingletonBase<LevelManager>
 {
-    // TODO: Do proper level loading
+    public bool hasLevelBeenLoaded = false;
+    public int loadedLevel;
     public Transform player;
-    public GameObject level1;
-    public GameObject level2;
-    public GameObject level3;
-    public Transform team1spawns;
-    public Transform team2spawns;
+    public List<Transform> levels;
 
-    private void Start()
+    public List<Transform> team1spawns;
+    public Transform team1base;
+    public List<Transform> team2spawns;
+    public Transform team2base;
+    public Transform flagLocation;
+
+    public void LoadLevel(int l)
     {
-        team1spawns = level1.transform.Find("red spawns");
-        team2spawns = level1.transform.Find("blue spawns");
-    }
-
-    private void Update()
-    {
-        // load level 1
-        if (Input.GetKeyDown(KeyCode.Alpha1)) 
-        {
-            level1.SetActive(true);
-            level2.SetActive(false);
-            level3.SetActive(false);
-            team1spawns = level1.transform.Find("red spawns");
-            team2spawns = level1.transform.Find("blue spawns");
-        }
-
-        // load level 2
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            level2.SetActive(true);
-            level1.SetActive(false);
-            level3.SetActive(false);
-            team1spawns = level1.transform.Find("red spawns");
-            team2spawns = level1.transform.Find("blue spawns");
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            level3.SetActive(true);
-            level2.SetActive(false);
-            level1.SetActive(false);
-        }
+        foreach (Transform level in levels) 
+        team1spawns = new List<Transform>(levels[l].Find("red spawns").GetComponentsInChildren<Transform>());
+        team1base = levels[l].Find("red base");
+        team2spawns = new List<Transform>(levels[l].Find("blue spawns").GetComponentsInChildren<Transform>());
+        team1base = levels[l].Find("blue base");
+        flagLocation = levels[l].Find("flag location");
     }
 
     public Vector3 GetRandomSpawnLoc(int team)
     {
-        Transform[] spawns;
         switch(team)
         {
             case 1:
-                spawns = team1spawns.GetComponentsInChildren<Transform>();
-                return spawns[Random.Range(0, spawns.Length)].position;
+                return team1spawns[Random.Range(0, team1spawns.Count)].position;
             case 2:
-                spawns = team1spawns.GetComponentsInChildren<Transform>();
-                return spawns[Random.Range(0, spawns.Length)].position;
+                return team2spawns[Random.Range(0, team2spawns.Count)].position;
             default:
                 Debug.Log("Invalid Team: " + team);
                 return Vector3.zero;

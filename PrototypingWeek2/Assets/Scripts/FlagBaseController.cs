@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 //This event will be invoked once the flag is captured, containing the playerTeamID.
 [System.Serializable]
-public class FlagEvent : UnityEvent<int> { }
+public class FlagEvent : UnityEvent<string> { }
 
 public class FlagBaseController : MonoBehaviour
 {
@@ -15,6 +15,10 @@ public class FlagBaseController : MonoBehaviour
     public bool flagCaptured;
     [SerializeField]
     public bool isNewFlagAvailable;
+
+    public int team1Score, team2Score;
+    public float timeLeft;
+    public float roundTime;
 
     public GameObject flagCloth;
     public GameObject carryFlagPrefab;
@@ -27,6 +31,9 @@ public class FlagBaseController : MonoBehaviour
     {
         flagCaptured = false;
         isNewFlagAvailable = true;
+        onFlagCaptured.AddListener(UIManager.Instance.Announcement);
+        onFlagInRightTeamBase.AddListener(UIManager.Instance.Announcement);
+        onFlagInRightTeamBase.AddListener(OnFlagScore);
     }
 
     private void Update()
@@ -39,9 +46,24 @@ public class FlagBaseController : MonoBehaviour
 
     private void CheckIsFlagInRightTeamBase()
     {
-        if (flagCarryer.GetComponent<CharacterMotion>().player.user.teamID == carryFlag.GetComponent<CarryFlag>().locationTeamBaseID)
+        int teamID = flagCarryer.GetComponent<CharacterMotion>().teamID;
+        int baseID = carryFlag.GetComponent<CarryFlag>().locationTeamBaseID;
+        if (teamID == baseID)
         {
-            onFlagInRightTeamBase.Invoke(flagCarryer.GetComponent<CharacterMotion>().player.user.teamID);
+            if (teamID == 1)
+            {
+                onFlagCaptured.Invoke("Red Team Has Captured The Flag!");
+                team1Score++;
+            }
+            else if (teamID == 2)
+            {
+                onFlagCaptured.Invoke("Blue Team Has Captured The Flag!");
+                team2Score++;
+            }
+            else
+            {
+                onFlagCaptured.Invoke("How on earth have you scored with a non-existent team? That's illegal you clod.");
+            }
         }
     }
 
@@ -54,29 +76,38 @@ public class FlagBaseController : MonoBehaviour
         Debug.Log(flagCarryer.name);
         carryFlag = Instantiate(carryFlagPrefab);
         carryFlag.GetComponent<CarryFlagController>().carryer = playerCollider.gameObject;
-        onFlagCaptured.Invoke(flagCarryer.GetComponent<CharacterMotion>().player.user.teamID);
+        int teamID = flagCarryer.GetComponent<CharacterMotion>().player.user.teamID;
+        if (teamID == 1)
+        {
+            onFlagCaptured.Invoke("Red Team Has Picked Up The Flag!");
+        }
+        else if (teamID == 2)
+        {
+            onFlagCaptured.Invoke("Blue Team Has Picked Up The Flag!");
+        }
+        else
+        {
+            onFlagCaptured.Invoke("Excuse me? You're not on a right team! Drop that flag right now!");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("ping");
         if (other.gameObject.tag == "Player" && isNewFlagAvailable)
         {
-            Debug.Log("Player");
             CaptureFlag(other);
         }
     }
 
-    public void OnFlagScore(int teamID)
+    public void OnFlagScore(string message)
     {
         StartCoroutine("RefreshFlagState");
-        Debug.Log("Team " + teamID + " score!");
     }
 
     public void OnCarryerDie()
     {
         StartCoroutine("RefreshFlagState");
-        Debug.Log("Flag returning.");
+        UIManager.Instance.Announcement("The Flag Carrier Has Died!\n(Flag returning shortly)");
     }
 
      private IEnumerator RefreshFlagState()

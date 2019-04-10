@@ -103,7 +103,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Life: 0.323
+    - _Life: 0
     - _LightingEnabled: 0
     - _LineBoost: 1
     - _LineIntensity: 0
@@ -125,7 +125,7 @@ Material:
     - _StencilOp: 0
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
-    - _UVScaling: 0.25
+    - _UVScaling: 0.1
     - _UVSec: 0
     - _UseUIAlphaClip: 0
     - _ZWrite: 0

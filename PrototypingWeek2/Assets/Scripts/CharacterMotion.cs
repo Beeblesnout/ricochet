@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CharacterMotion : IDedObject<CharacterMotion>
 {
+    public int teamID;
+
     public Transform head;
     public bool disableMovement = false;
     public float accel;

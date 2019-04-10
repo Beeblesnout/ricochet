@@ -153,6 +153,7 @@ public class ShotsManager : SingletonBase<ShotsManager>
                 lineEffects.Enqueue(newLine);
             }
         }
+        //Debug.Break();
     }
 
     public void RequeueLine(LineEffect line)

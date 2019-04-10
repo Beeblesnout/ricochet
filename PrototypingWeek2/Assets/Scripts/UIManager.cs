@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-// using Popcron.console;
-// using Console = Console.Console;
+using System.Threading.Tasks;
 
 public class UIManager : SingletonBase<UIManager>
 {
@@ -16,16 +15,24 @@ public class UIManager : SingletonBase<UIManager>
     public TMP_Text currentGunText;
     public TMP_Text teamText;
     public Slider healthBar;
+    public TMP_Text announcementText;
 
     public CharacterMotion playerMotion;
     public GunController playerGun;
     private Health playerHealth;
 
-    public override void Awake()
+    public int levelToLoad;
+
+    public void LocateUIElements()
     {
-        base.Awake();
-        // Console.Initialize();
-        if (aimReflectLine == null) aimReflectLine = aimCrosshair.GetComponent<LineRenderer>();
+        canvas = (Transform)FindObjectOfType(typeof(Canvas));
+        aimCrosshair = GameObject.Find("AimCrosshair").transform;
+        aimReflectLine = aimCrosshair.GetComponent<LineRenderer>();
+        fpsCounter = GameObject.Find("FPSCounter").GetComponent<TMP_Text>();
+        currentGunText = GameObject.Find("SelectedGun").GetComponent<TMP_Text>();
+        teamText = GameObject.Find("TeamText").GetComponent<TMP_Text>();
+        healthBar = GameObject.Find("HealthBar").GetComponent<Slider>();
+        announcementText = GameObject.Find("AnnouncementText").GetComponent<TMP_Text>();
     }
 
     public void LinkUIElements(CharacterMotion newMotion)
@@ -80,6 +87,18 @@ public class UIManager : SingletonBase<UIManager>
         for (int i = 0; i < line.GetPositions(pos); i++)
         {
             line.SetPosition(i, point + dir * i * ricochetLineDistanceCurve.Evaluate(dist / 2) * 3);
+        }
+    }
+    
+    public async void Announcement(string message)
+    {
+        announcementText.text = message;
+        Debug.Log(message);
+        if (announcementText.gameObject.activeInHierarchy)
+        {
+            announcementText.gameObject.SetActive(true);
+            await Task.Delay(3000);
+            announcementText.gameObject.SetActive(false);
         }
     }
 }

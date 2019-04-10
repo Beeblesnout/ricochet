@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CarryFlag : MonoBehaviour
 {
+    public int carrierID;
     [SerializeField]
     public int locationTeamBaseID;
 
@@ -14,6 +15,7 @@ public class CarryFlag : MonoBehaviour
             locationTeamBaseID = other.GetComponent<TeamBase>().baseTeamID;
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "TeamBase")
