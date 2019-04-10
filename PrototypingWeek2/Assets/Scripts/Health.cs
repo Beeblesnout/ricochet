@@ -54,6 +54,7 @@ public class Health : MonoBehaviour
         StartCoroutine(DamageAnim(damage));
     }
 
+    // TODO: do this without a coroutine
     IEnumerator DamageAnim(float damage)
     {
         Material damageMat = new Material(defMat.shader);
