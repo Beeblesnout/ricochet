@@ -68,7 +68,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseTex:
-        m_Texture: {fileID: 2800000, guid: 07f22c9e28f2c7b49894622afccda3aa, type: 3}
+        m_Texture: {fileID: 2800000, guid: a373faeda50512b4aa59c2639b1b67b5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -103,6 +103,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _Life: 0.323
     - _LightingEnabled: 0
     - _LineBoost: 1
     - _LineIntensity: 0

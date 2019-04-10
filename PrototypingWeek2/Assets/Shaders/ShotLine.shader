@@ -4,7 +4,7 @@
     {
         _UVScaling("UV Scaling", Range(0, 10)) = 1
         _NoiseTex("Noise Texture", 2D) = "white" {}
-        // _Life("Lifetime Percent", Range(0, 1)) = 0
+        _Life("Lifetime Percent", Range(0, 1)) = 0
         _LineWidth("Line Width", Range(0, .5)) = .25
         _LineBoost("Line Boost", Range(0, 1)) = 0
     }
@@ -57,8 +57,8 @@
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 col = i.color;
-
-                half dispersion = lerp(0, 5, _Life);
+        
+                half dispersion = _Life * 5;
                 fixed noise = tex2D(_NoiseTex, (i.uv - _Time.x) * _UVScaling) * dispersion;
                 _LineWidth *= 1-_Life;
                 fixed mask = smoothstep(.5 - _LineWidth + dispersion/2, .5 + _LineWidth + dispersion/2, i.uv.y + noise);
