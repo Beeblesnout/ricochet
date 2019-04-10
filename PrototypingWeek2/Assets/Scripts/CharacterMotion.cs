@@ -19,6 +19,7 @@ public class CharacterMotion : IDedObject<CharacterMotion>
     public Vector3 gunHeadOffset;
     public float gunPosRate;
 
+    public Player player;
     public Health health;
 
     [HideInInspector]
@@ -32,7 +33,6 @@ public class CharacterMotion : IDedObject<CharacterMotion>
     [HideInInspector]
     public bool queueJump;
     public Vector3 headFlatForward;
-    private Player player;
 
     void Start()
     {

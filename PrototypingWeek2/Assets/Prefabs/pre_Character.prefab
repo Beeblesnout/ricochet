@@ -168,6 +168,7 @@ MonoBehaviour:
   gunRotateRate: 0.25
   gunHeadOffset: {x: 0, y: 0, z: 0}
   gunPosRate: 0.25
+  player: {fileID: 0}
   health: {fileID: 8930017846877760375}
   rb: {fileID: 0}
   moveInput: {x: 0, y: 0}

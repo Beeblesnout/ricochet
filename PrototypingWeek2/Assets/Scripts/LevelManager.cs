@@ -9,6 +9,7 @@ public class LevelManager : SingletonBase<LevelManager>
     public Transform player;
     public GameObject level1;
     public GameObject level2;
+    public GameObject level3;
     public Transform team1spawns;
     public Transform team2spawns;
 
@@ -25,6 +26,7 @@ public class LevelManager : SingletonBase<LevelManager>
         {
             level1.SetActive(true);
             level2.SetActive(false);
+            level3.SetActive(false);
             team1spawns = level1.transform.Find("red spawns");
             team2spawns = level1.transform.Find("blue spawns");
         }
@@ -34,8 +36,16 @@ public class LevelManager : SingletonBase<LevelManager>
         {
             level2.SetActive(true);
             level1.SetActive(false);
+            level3.SetActive(false);
             team1spawns = level1.transform.Find("red spawns");
             team2spawns = level1.transform.Find("blue spawns");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            level3.SetActive(true);
+            level2.SetActive(false);
+            level1.SetActive(false);
         }
     }
 

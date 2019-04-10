@@ -8,10 +8,8 @@ public class JumpDetection : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("yes");
         if(other.gameObject.layer == LayerMask.NameToLayer("Grounds"))
         {
-            Debug.Log("yes2");
             motionScript.canJump = true;
         }
     }

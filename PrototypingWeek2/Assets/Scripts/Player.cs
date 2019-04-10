@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         motor = GetComponent<CharacterMotion>();
+        motor.player = this;
         health = GetComponent<Health>();
         gun = GetComponentInChildren<GunController>();
     }
