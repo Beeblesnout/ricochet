@@ -168,7 +168,6 @@ MonoBehaviour:
   gunRotateRate: 0.25
   gunHeadOffset: {x: 0, y: 0, z: 0}
   gunPosRate: 0.25
-  health: {fileID: 8930017846877760375}
   rb: {fileID: 0}
   moveInput: {x: 0, y: 0}
   lookInput: {x: 0, y: 0}
@@ -214,7 +213,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  alive: 0
   damageAnimDuration: 1
   healthAnimCurve:
     serializedVersion: 2

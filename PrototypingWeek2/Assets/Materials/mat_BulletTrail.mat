@@ -8,14 +8,16 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: mat_BulletTrail
-  m_Shader: {fileID: 4800000, guid: 4eb3228e9ff0ace4eadc177e37b7b375, type: 3}
+  m_Shader: {fileID: 211, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _ALPHABLEND_ON _COLORCOLOR_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - ALWAYS
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -105,12 +107,8 @@ Material:
     - _GlossyReflections: 1
     - _Life: 0.323
     - _LightingEnabled: 0
-    - _LineBoost: 1
-    - _LineIntensity: 0
-    - _LineWidth: 0.1
     - _Metallic: 0
     - _Mode: 4
-    - _NoiseAmt: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Shininess: 1
@@ -125,7 +123,6 @@ Material:
     - _StencilOp: 0
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
-    - _UVScaling: 0.25
     - _UVSec: 0
     - _UseUIAlphaClip: 0
     - _ZWrite: 0
