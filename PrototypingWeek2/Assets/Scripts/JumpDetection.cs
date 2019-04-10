@@ -4,21 +4,15 @@ using UnityEngine;
 
 public class JumpDetection : MonoBehaviour
 {
-    [SerializeField] private GameObject parent;
-    [SerializeField] private Player motionScript;
+    public Player motionScript;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerStay(Collider other)
     {
-        parent = this.transform.parent.gameObject;
-        motionScript = parent.GetComponent<Player>();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
+        Debug.Log("yes");
         if(other.gameObject.layer == LayerMask.NameToLayer("Grounds"))
         {
-            motionScript.CanJump = true;
+            Debug.Log("yes2");
+            motionScript.canJump = true;
         }
     }
 }

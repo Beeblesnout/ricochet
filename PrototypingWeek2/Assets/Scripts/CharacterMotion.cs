@@ -65,7 +65,7 @@ public class CharacterMotion : IDedObject<CharacterMotion>
 
             rb.velocity = new Vector3(vel.x, rb.velocity.y, vel.z);
 
-            if (queueJump && Physics.Raycast(transform.position + Vector3.down * .9f, Vector3.down, .2f))
+            if (queueJump)
             {
                 queueJump = false;
                 rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);

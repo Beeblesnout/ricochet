@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 58214815}
   - component: {fileID: 58214814}
   - component: {fileID: 58214813}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Cube (1)
   m_TagString: Environment
   m_Icon: {fileID: 0}
@@ -1052,7 +1052,7 @@ GameObject:
   - component: {fileID: 344636867}
   - component: {fileID: 344636866}
   - component: {fileID: 344636865}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Cube (13)
   m_TagString: Environment
   m_Icon: {fileID: 0}
@@ -2759,7 +2759,7 @@ GameObject:
   - component: {fileID: 988434288}
   - component: {fileID: 988434287}
   - component: {fileID: 988434286}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Cube (11)
   m_TagString: Environment
   m_Icon: {fileID: 0}
@@ -3465,7 +3465,7 @@ GameObject:
   - component: {fileID: 1432145822}
   - component: {fileID: 1432145821}
   - component: {fileID: 1432145820}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Cube (14)
   m_TagString: Environment
   m_Icon: {fileID: 0}
@@ -5116,7 +5116,7 @@ GameObject:
   - component: {fileID: 2075043219}
   - component: {fileID: 2075043218}
   - component: {fileID: 2075043217}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Environment
   m_Icon: {fileID: 0}
@@ -5448,7 +5448,7 @@ MonoBehaviour:
   prefab: {fileID: 6644597828629569328, guid: 36301c4327d3c424e8d1a0e653747fbb, type: 3}
   connections: []
   intercom:
-    pastMessages: 37481af38fbd6a78f29821b6f97880f7c6764d35ed3c3d5c60ab760d73ae0a47c10aa30b2c8124cb
+    pastMessages: 37481af38fbd6a78f29821b6f97880f7c6764d35ed3c3d5c60ab760d73ae0a47c10aa30b2c8124cbe1d89b0d44cd352fc9cf69e7e556a9fb6571750ecbb231d7e035449947c372d2ae8ef2d14e2bac15d10b5362ea723d80008e7babb2f801afa6432d0e889c67865c17385664d82cb9c5e03dbf5ecf6dedf84399b847c69f358cc32a0bfe9d0cb4a34d05d339e69ca86141e6d1ba41d057d6bf164403afbe157783c9a1ad213aa7d3081c11c99a3392a7705706e0cefacbf252343f86c731748e6f5bb61cfa7abf06befeb225bf0ebc8b039d9257b8b529
     source: 0
 --- !u!1 &646941088876578289
 GameObject:
@@ -20126,7 +20126,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 0
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0

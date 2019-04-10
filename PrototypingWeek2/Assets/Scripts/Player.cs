@@ -10,12 +10,7 @@ public class Player : MonoBehaviour
     GunController gun;
 
     //Bool determining if player can jump with associated get/set method
-    private bool canJump = true;
-    public bool CanJump
-    {
-        get { return canJump; }
-        set { canJump = value; }
-    }
+    public bool canJump = true;
 
     bool disableInput;
 
