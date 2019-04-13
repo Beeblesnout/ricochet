@@ -54,10 +54,14 @@ public class PlayerUser : NetUser
 
     private async void OnPlayerConnected(NetConnection connection)
     {
+        Message message = new Message(NMType.LevelSend);
+        message.Write(LevelManager.Instance.loadedLevel);
+        message.Send();
+
         await Task.Delay(50);
 
         //send alive state
-        Message message = new Message(NMType.PlayerAliveState);
+        message = new Message(NMType.PlayerAliveState);
         message.Write(ConnectID);
         message.Write(isAlive);
         message.Send(connection);

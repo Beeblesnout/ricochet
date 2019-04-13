@@ -39,5 +39,5 @@ public class MultiplayerManager : SingletonBase<MultiplayerManager>
 
 public enum NMType
 {
-    PlayerAliveState, PlayerPosition, PlayerEulerAngles, PlayerShootState, PlayerGunID, PlayerTeam
+    PlayerAliveState, PlayerPosition, PlayerEulerAngles, PlayerShootState, PlayerGunID, PlayerTeam, LevelSend
 }

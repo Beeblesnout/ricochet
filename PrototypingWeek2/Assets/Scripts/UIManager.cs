@@ -92,10 +92,10 @@ public class UIManager : SingletonBase<UIManager>
     
     public async void Announcement(string message)
     {
-        announcementText.text = message;
-        Debug.Log(message);
         if (announcementText.gameObject.activeInHierarchy)
         {
+            announcementText.text = message;
+            Debug.Log(message);
             announcementText.gameObject.SetActive(true);
             await Task.Delay(3000);
             announcementText.gameObject.SetActive(false);
