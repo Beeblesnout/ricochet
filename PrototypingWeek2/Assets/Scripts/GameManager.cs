@@ -1,36 +1,47 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Popcron.Networking;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class GameManager : MonoBehaviour
 {
-    public void Quit()
+    public async void Host(int level)
     {
-        Application.Quit();
-    }
-
-    public void Host()
-    {
-        SceneManager.LoadScene("CTF");
+        AsyncOperation levelLoad = SceneManager.LoadSceneAsync("CTF");
+        while (!levelLoad.isDone || !LevelManager.hasLoadedLevels) await Task.Delay(25);
+        LevelManager.Instance.LoadLevels();
+        LevelManager.Instance.SetLevel(level);
         CommandsNetworking.Host();
-        PlayerUser.Local.isAlive = true;
-    }
-
-    public Task RecieveLevel(Message message)
-    {
-        bool recieved = false;
-        return Task.Run(() => {
-            
-        });
     }
 
     public async void Connect()
     {
+        MultiplayerManager.onMessage += RecieveLevel;
+        AsyncOperation levelLoad = SceneManager.LoadSceneAsync("CTF");
+        LevelManager.Instance.LoadLevels();
         CommandsNetworking.Connect();
-        
-        SceneManager.LoadScene("CTF");
+
+        while (!recievedLevel || ) await Task.Delay(25);
+
+        LevelManager.Instance.SetLevel(levelToLoad);
+    }
+
+    bool recievedLevel = false;
+    int levelToLoad = 0;
+    public void RecieveLevel(Message message)
+    {
+        if ((NMType)message.Type == NMType.LevelSend)
+        {
+            MultiplayerManager.onMessage -= RecieveLevel;
+            message.Rewind();
+            levelToLoad = message.Read<int>();
+            recievedLevel = true;
+        }
+    }
+    
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

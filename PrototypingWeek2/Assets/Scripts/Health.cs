@@ -7,14 +7,20 @@ public class Health : MonoBehaviour
 {
     private MeshRenderer mesh;
 
+    [Header("Basic Variables")]
     public float maxHealth;
     public float health;
     public float displayHealth;
     public AnimationCurve healthLerpCurve;
     public bool alive;
     
-    public float damageAnimDuration;
-    public AnimationCurve healthAnimCurve;
+    [Header("Damage Animation")]
+    [SerializeField]
+    private int damageAnimState;
+    [SerializeField]
+    private float damageAnimDuration;
+    [SerializeField]
+    private AnimationCurve healthAnimCurve;
     
     public Material deadCharMat;
     Material defaultMat;
@@ -46,7 +52,6 @@ public class Health : MonoBehaviour
 
     public void Damage(float damage)
     {
-        Debug.Log("Damage: " + damage);
         health -= damage;
         mesh.material = defaultMat;
         StopCoroutine(DamageAnim(0));

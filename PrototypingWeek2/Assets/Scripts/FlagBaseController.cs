@@ -31,8 +31,8 @@ public class FlagBaseController : MonoBehaviour
     {
         flagCaptured = false;
         isNewFlagAvailable = true;
-        onFlagCaptured.AddListener(UIManager.Instance.Announcement);
-        onFlagInRightTeamBase.AddListener(UIManager.Instance.Announcement);
+        onFlagCaptured.AddListener(UIManager.Instance.MakeAnnouncement);
+        onFlagInRightTeamBase.AddListener(UIManager.Instance.MakeAnnouncement);
         onFlagInRightTeamBase.AddListener(OnFlagScore);
     }
 
@@ -73,7 +73,6 @@ public class FlagBaseController : MonoBehaviour
         isNewFlagAvailable = false;
         flagCloth.gameObject.SetActive(false);
         flagCarryer = playerCollider.gameObject;
-        Debug.Log(flagCarryer.name);
         carryFlag = Instantiate(carryFlagPrefab);
         carryFlag.GetComponent<CarryFlagController>().carryer = playerCollider.gameObject;
         int teamID = flagCarryer.GetComponent<CharacterMotion>().player.user.teamID;
@@ -107,7 +106,7 @@ public class FlagBaseController : MonoBehaviour
     public void OnCarryerDie()
     {
         StartCoroutine("RefreshFlagState");
-        UIManager.Instance.Announcement("The Flag Carrier Has Died!\n(Flag returning shortly)");
+        UIManager.Instance.MakeAnnouncement("The Flag Carrier Has Died!\n(Flag returning shortly)");
     }
 
      private IEnumerator RefreshFlagState()

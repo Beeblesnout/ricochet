@@ -7,7 +7,8 @@
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
+        Blend SrcAlpha OneMinusSrcAlpha
         LOD 100
 
         Pass
@@ -21,14 +22,14 @@
             struct appdata
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+                float3 uvl : TEXCOORD0;
                 fixed4 color : COLOR;
             };
 
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                float2 uv : TEXCOORD0;
+                float3 uvl : TEXCOORD0;
                 fixed4 color : COLOR;
             };
 
@@ -39,7 +40,7 @@
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+                o.uvl = v.uvl;
                 o.color = v.color;
                 return o;
                 // float x = (v.uv.y);
@@ -49,8 +50,14 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_Noise1, i.uv);
-                return col;
+                fixed a = tex2D(_Noise1, i.uvl.xy);
+                half l = i.uvl.z;
+                a = smoothstep(l-.01, l+.01, a);
+
+                fixed4 end;
+                end.rgb = i.color.rgb;
+                end.a = a * i.color.a;
+                return end;
             }
             ENDCG
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Threading.Tasks;
+using Popcron.Networking;
 
 public class UIManager : SingletonBase<UIManager>
 {
@@ -17,15 +18,30 @@ public class UIManager : SingletonBase<UIManager>
     public Slider healthBar;
     public TMP_Text announcementText;
 
+    [Header("Player References")]
     public CharacterMotion playerMotion;
     public GunController playerGun;
-    private Health playerHealth;
+    public Health playerHealth;
 
-    public int levelToLoad;
+    [Header("Announcements")]
+    /// <summary>
+    /// Announcement Duration
+    /// </summary>
+    public float annDuration;
+    /// <summary>
+    /// Announcement Start Time
+    /// </summary>
+    private float annStartTime;
+    private bool announcing;
+
+    void Start()
+    {
+        LocateUIElements();
+    }
 
     public void LocateUIElements()
     {
-        canvas = (Transform)FindObjectOfType(typeof(Canvas));
+        canvas = ((Canvas)FindObjectOfType(typeof(Canvas))).transform;
         aimCrosshair = GameObject.Find("AimCrosshair").transform;
         aimReflectLine = aimCrosshair.GetComponent<LineRenderer>();
         fpsCounter = GameObject.Find("FPSCounter").GetComponent<TMP_Text>();
@@ -33,13 +49,17 @@ public class UIManager : SingletonBase<UIManager>
         teamText = GameObject.Find("TeamText").GetComponent<TMP_Text>();
         healthBar = GameObject.Find("HealthBar").GetComponent<Slider>();
         announcementText = GameObject.Find("AnnouncementText").GetComponent<TMP_Text>();
+        announcementText.enabled = false;
     }
 
-    public void LinkUIElements(CharacterMotion newMotion)
+    public void LinkUIElements()
     {
-        playerMotion = newMotion;
-        if (playerGun == null) playerGun = playerMotion.gameObject.GetComponentInChildren<GunController>();
-        if (playerHealth == null) playerHealth = playerMotion.gameObject.GetComponent<Health>();
+        if (PlayerUser.Local.IsMine)
+        {
+            playerMotion = PlayerUser.Local.AvatarMotion;
+            playerGun = PlayerUser.Local.AvatarGun;
+            playerHealth = PlayerUser.Local.AvatarHealth;
+        }
     }
 
     void Update()
@@ -52,6 +72,8 @@ public class UIManager : SingletonBase<UIManager>
             currentGunText.text = playerGun.gun.gunName;
         }
         if (playerHealth) healthBar.value = Mathf.Clamp01(playerHealth.displayHealth / playerHealth.maxHealth);
+
+        
 
         if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
     }
@@ -90,14 +112,25 @@ public class UIManager : SingletonBase<UIManager>
         }
     }
     
-    public async void Announcement(string message)
+    public void MakeAnnouncement(string message)
     {
-        if (announcementText.gameObject.activeInHierarchy)
+        annStartTime = Time.time;
+        announcementText.text = message;
+        announcementText.gameObject.SetActive(true);
+        Debug.Log(message);
+    }
+
+    void AnnouncementUpdate()
+    {
+        if (announcing)
         {
-            announcementText.text = message;
-            Debug.Log(message);
-            announcementText.gameObject.SetActive(true);
-            await Task.Delay(3000);
+            if (Time.time - annStartTime < annDuration)
+            {
+
+            }
+        }
+        else
+        {
             announcementText.gameObject.SetActive(false);
         }
     }

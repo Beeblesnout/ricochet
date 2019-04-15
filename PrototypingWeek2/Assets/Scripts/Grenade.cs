@@ -21,8 +21,6 @@ public class Grenade : MonoBehaviour
     void Start()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
-        Debug.Log("Grenade spawned");
-        Debug.Log(damage);
         rb.AddForce(transform.forward * velocity, ForceMode.Impulse);
         transform.rotation = Random.rotation;
         timer = explodeTimer;
@@ -35,43 +33,30 @@ public class Grenade : MonoBehaviour
             Instantiate(explosionObject, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
-        switch(canExplode)
+        if (canExplode)
         {
-            case true:
-                timer -= Time.deltaTime;
-                Debug.Log(timer);
-                if(timer <= 0)
-                {
-                    Debug.Log("THIS SHOULD EXPLODE");
-                    explosionRadius.enabled = true;
-                    hasExploded = true;
-                }
-                break;
-
-            case false:
-
-                break;
-
-            default:
-
-                break;
+            timer -= Time.deltaTime;
+            if(timer <= 0)
+            {
+                explosionRadius.enabled = true;
+                hasExploded = true;
+            }
         }
     }
 
     private void OnCollisionEnter(Collision other)
     {
-       if(other.gameObject.tag == "Environment" && !canExplode)
+        if(other.gameObject.tag == "Environment" && !canExplode)
         {
-            Debug.Log("OINGO BOINGO BROTHERS");
             canExplode = true;
         }
-       if(other.gameObject.tag != "Environment" && canExplode)
+        if(other.gameObject.tag != "Environment" && canExplode)
         {
             timer = 0;
         }
     }
 
-    private void OnTriggerExit  (Collider other)
+    private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Player" || other.gameObject.tag == "Enemy")
         {

@@ -4,11 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class MultiplayerManager : SingletonBase<MultiplayerManager>
 {
-
-
     public static Action<Message> onMessage;
 
     private void OnEnable()

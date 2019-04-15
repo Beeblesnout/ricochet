@@ -10,28 +10,63 @@ public class PlayerUser : NetUser
     public int teamID;
 
     public static PlayerUser Local { get; private set; }
-    public GameObject avatarPrefab;
-    public GameObject dummyAvatarPrefab;
-    public GameObject avatar { get; private set; }
-    private GunController p_avatarGun;
-    public GunController avatarGun {
+
+    [Header("Avatar Prefabs")]
+    [SerializeField]
+    private GameObject avatarPrefab;
+    [SerializeField]
+    private GameObject dummyAvatarPrefab;
+
+    // Avatar References
+    public GameObject Avatar { get; private set; }
+    private CharacterMotion p_avatarMotion;
+    public CharacterMotion AvatarMotion {
         get
         {
-            if (p_avatarGun == null) p_avatarGun = avatar.GetComponentInChildren<GunController>();
+            if (p_avatarMotion == null) p_avatarMotion = Avatar.GetComponent<CharacterMotion>();
+            return p_avatarMotion;
+        }
+        private set {
+            p_avatarMotion = value;
+        }
+    }
+    private GunController p_avatarGun;
+    public GunController AvatarGun {
+        get
+        {
+            if (p_avatarGun == null) p_avatarGun = Avatar.GetComponentInChildren<GunController>();
             return p_avatarGun;
         }
         private set {
             p_avatarGun = value;
         }
     }
-    public bool isAlive = false;
+    private Health p_avatarHealth;
+    public Health AvatarHealth {
+        get
+        {
+            if (p_avatarHealth == null) p_avatarHealth = Avatar.GetComponentInChildren<Health>();
+            return p_avatarHealth;
+        }
+        private set {
+            p_avatarHealth = value;
+        }
+    }
+    
+    [Header("User Params")]
+    [SerializeField]
+    private bool isAlive = false;
     private bool lastAlive;
+    [SerializeField]
     private Vector3 avatarPosition;
     private Vector3 lastPosition;
+    [SerializeField]
     private Vector2 avatarEulerAngles;
     private Vector2 lastEulerAngles;
+    [SerializeField]
     private bool shooting;
     private bool lastShootState;
+    [SerializeField]
     private int lastGunID;
     private int lastTeamID;
 
@@ -50,6 +85,8 @@ public class PlayerUser : NetUser
     void Start()
     {
         teamID = UnityEngine.Random.Range(1, 3);
+        if (IsMine) Local = this;
+        isAlive = true;
     }
 
     private async void OnPlayerConnected(NetConnection connection)
@@ -66,27 +103,27 @@ public class PlayerUser : NetUser
         message.Write(isAlive);
         message.Send(connection);
 
-        if (avatar)
+        if (Avatar)
         {
             //send position
             message = new Message(NMType.PlayerPosition);
             message.Write(ConnectID);
-            message.Write(avatar.transform.position.x);
-            message.Write(avatar.transform.position.y);
-            message.Write(avatar.transform.position.z);
+            message.Write(Avatar.transform.position.x);
+            message.Write(Avatar.transform.position.y);
+            message.Write(Avatar.transform.position.z);
             message.Send(connection);
             
             //send rotation
             message = new Message(NMType.PlayerEulerAngles);
             message.Write(ConnectID);
-            message.Write(avatar.transform.eulerAngles.x);
-            message.Write(avatar.transform.eulerAngles.y);
+            message.Write(Avatar.transform.eulerAngles.x);
+            message.Write(Avatar.transform.eulerAngles.y);
             message.Send(connection);
 
             //send gun
             message = new Message(NMType.PlayerGunID);
             message.Write(ConnectID);
-            message.Write(avatarGun.GetGunID());
+            message.Write(AvatarGun.GetGunID());
             message.Send(connection);
 
             //send team
@@ -152,7 +189,7 @@ public class PlayerUser : NetUser
             message.Rewind();
             if (message.Read<long>() == ConnectID)
             {
-                avatarGun.SetGun(message.Read<int>());
+                AvatarGun.SetGun(message.Read<int>());
             }
         }
         else if (type == NMType.PlayerTeam)
@@ -171,7 +208,6 @@ public class PlayerUser : NetUser
     {
         if (IsMine)
         {
-            Local = this;
             if (isAlive != lastAlive)
             {
                 lastAlive = !lastAlive;
@@ -183,12 +219,12 @@ public class PlayerUser : NetUser
             }
 
             //player is alive so send player data
-            if (avatar)
+            if (Avatar)
             {
                 //sync position
-                if  (avatar.transform.position != lastPosition)
+                if  (Avatar.transform.position != lastPosition)
                 {
-                    lastPosition = avatar.transform.position;
+                    lastPosition = Avatar.transform.position;
                     Message message = new Message(NMType.PlayerPosition);
                     message.Write(ConnectID);
                     message.Write(lastPosition.x);
@@ -209,9 +245,9 @@ public class PlayerUser : NetUser
                 }
 
                 //sync shoot
-                if (avatarGun.shooting != lastShootState)
+                if (AvatarGun.shooting != lastShootState)
                 {
-                    lastShootState = avatarGun.shooting;
+                    lastShootState = AvatarGun.shooting;
                     Message message = new Message(NMType.PlayerShootState);
                     message.Write(ConnectID);
                     message.Write(lastShootState);
@@ -219,9 +255,9 @@ public class PlayerUser : NetUser
                 }
 
                 //sync gun
-                if (avatarGun.GetGunID() != lastGunID)
+                if (AvatarGun.GetGunID() != lastGunID)
                 {
-                    lastGunID = avatarGun.GetGunID();
+                    lastGunID = AvatarGun.GetGunID();
                     Message message = new Message(NMType.PlayerGunID);
                     message.Write(ConnectID);
                     message.Write(lastGunID);
@@ -241,50 +277,58 @@ public class PlayerUser : NetUser
         }
         else
         {
-            if (avatar)
+            if (Avatar)
             {
                 // set position
-                avatar.transform.position = avatarPosition;
+                Avatar.transform.position = avatarPosition;
                 // set rotation
-                avatar.transform.eulerAngles = new Vector3(0, avatarEulerAngles.y, 0);
-                avatar.transform.GetChild(1).localEulerAngles = new Vector3(avatarEulerAngles.x, 0, 0);
+                Avatar.transform.eulerAngles = new Vector3(0, avatarEulerAngles.y, 0);
+                Avatar.transform.GetChild(0).localEulerAngles = new Vector3(avatarEulerAngles.x, 0, 0);
                 // set shooting
-                avatarGun.shooting = shooting;
+                AvatarGun.shooting = shooting;
             }
         }
         
-        if (avatar == null && isAlive)
+        if (Avatar == null && isAlive)
         {
             if (IsMine)
             {
-                avatar = Instantiate(avatarPrefab);
-                avatar.GetComponent<Player>().user = this;
-                avatar.GetComponent<CharacterMotion>().teamID = teamID;
-                avatar.transform.position = LevelManager.Instance.GetRandomSpawnLoc(teamID);
+                Avatar = Instantiate(avatarPrefab);
+                Avatar.GetComponent<Player>().user = this;
+                AvatarMotion = Avatar.GetComponent<CharacterMotion>();
+                AvatarGun = Avatar.GetComponentInChildren<GunController>();
+                AvatarHealth = Avatar.GetComponent<Health>();
+                AvatarMotion.teamID = teamID;
+                Avatar.transform.position = LevelManager.Instance.GetRandomSpawnLoc(teamID);
+                isAlive = true;
+                UIManager.Instance.LinkUIElements();
             }
             else
             {
-                avatar = Instantiate(dummyAvatarPrefab);
+                Avatar = Instantiate(dummyAvatarPrefab);
             }
-            avatar.GetComponent<Health>().onDeath.AddListener(KillPlayer);
-            avatarGun = avatar.GetComponentInChildren<GunController>();
-            UIManager.Instance.LinkUIElements(avatar.GetComponent<CharacterMotion>());
+            Avatar.GetComponent<Health>().onDeath.AddListener(KillAvatar);
         }
-        else if (avatar != null && !isAlive)
+        else if (Avatar != null && !isAlive)
         {
-            Destroy(avatar);
+            Destroy(Avatar);
         }
     }
 
-    private async void KillPlayer()
+    public void SpawnAvatar()
+    {
+
+    }
+
+    private async void KillAvatar()
     {
         await Task.Delay(1000);
-        Destroy(avatar);
+        Destroy(Avatar);
     }
     
     public void JoinTeam(int newTeam)
     {
         teamID = newTeam;
-        if (avatar) avatar.transform.position = LevelManager.Instance.GetRandomSpawnLoc(newTeam);
+        if (Avatar) Avatar.transform.position = LevelManager.Instance.GetRandomSpawnLoc(newTeam);
     }
 }
