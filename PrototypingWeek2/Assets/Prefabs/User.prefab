@@ -48,9 +48,12 @@ MonoBehaviour:
     latency: 0
     host: 
     port: 0
-  teamID: 0
-  avatarPrefab: {fileID: 741055555649046246, guid: 6917dac65eaee494d979ba943d3b947b,
+  avatarPrefab: {fileID: 5001518667302695718, guid: 6917dac65eaee494d979ba943d3b947b,
     type: 3}
   dummyAvatarPrefab: {fileID: 5701614992454153696, guid: 17434c1f03c20de43915b6bec23195a3,
     type: 3}
   isAlive: 0
+  avatarPosition: {x: 0, y: 0, z: 0}
+  avatarEulerAngles: {x: 0, y: 0}
+  shooting: 0
+  teamID: 0
