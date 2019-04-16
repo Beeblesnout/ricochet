@@ -59,11 +59,6 @@ public class Player : MonoBehaviour
             motor.moveInput = Vector2.zero;
             motor.lookInput = Vector2.zero;
         }
-
-        if (!health.alive)
-        {
-            
-        }
     }
 
     public void UpdateGunText()

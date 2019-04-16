@@ -124,9 +124,9 @@ public class UIManager : SingletonBase<UIManager>
     {
         if (announcing)
         {
-            if (Time.time - annStartTime < annDuration)
+            if (Time.time - annStartTime >= annDuration)
             {
-
+                announcing = false;
             }
         }
         else

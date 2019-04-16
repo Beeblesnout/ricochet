@@ -7,8 +7,6 @@ using UnityEngine;
 
 public class PlayerUser : NetUser
 {
-    public int teamID;
-
     public static PlayerUser Local { get; private set; }
 
     [Header("Avatar Prefabs")]
@@ -54,20 +52,16 @@ public class PlayerUser : NetUser
     }
     
     [Header("User Params")]
-    [SerializeField]
-    private bool isAlive = false;
+    public bool isAlive = false;
     private bool lastAlive;
-    [SerializeField]
-    private Vector3 avatarPosition;
+    public Vector3 avatarPosition;
     private Vector3 lastPosition;
-    [SerializeField]
-    private Vector2 avatarEulerAngles;
+    public Vector2 avatarEulerAngles;
     private Vector2 lastEulerAngles;
-    [SerializeField]
-    private bool shooting;
+    public bool shooting;
     private bool lastShootState;
-    [SerializeField]
     private int lastGunID;
+    public int teamID;
     private int lastTeamID;
 
     private void OnEnable()
@@ -82,11 +76,10 @@ public class PlayerUser : NetUser
         Net.PlayerConnectedEvent -= OnPlayerConnected;
     }
 
-    void Start()
+    void Awake()
     {
         teamID = UnityEngine.Random.Range(1, 3);
         if (IsMine) Local = this;
-        isAlive = true;
     }
 
     private async void OnPlayerConnected(NetConnection connection)

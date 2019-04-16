@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class LevelManager : SingletonBase<LevelManager>
@@ -21,8 +22,8 @@ public class LevelManager : SingletonBase<LevelManager>
     {
         List<GameObject> foundLevels = GameObject.FindGameObjectsWithTag("Level").ToList();
         levels = foundLevels.ConvertAll<Level>(l => new Level(l.transform));
-
         SetLevel(0);
+        hasLoadedLevels = true;
     }
 
     public void SetLevel(int index)
