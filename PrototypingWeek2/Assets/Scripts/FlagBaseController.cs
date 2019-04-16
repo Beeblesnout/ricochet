@@ -29,8 +29,11 @@ public class FlagBaseController : MonoBehaviour
 
     private void Start()
     {
+        //Initialize flag base state.
         flagCaptured = false;
         isNewFlagAvailable = true;
+
+        //Add listeners to flag related events.
         onFlagCaptured.AddListener(UIManager.Instance.MakeAnnouncement);
         onFlagInRightTeamBase.AddListener(UIManager.Instance.MakeAnnouncement);
         onFlagInRightTeamBase.AddListener(OnFlagScore);
@@ -38,6 +41,7 @@ public class FlagBaseController : MonoBehaviour
 
     private void Update()
     {
+        //Check if anyteam is scoring while a flag is being carried.
         if (flagCaptured)
         {
             CheckIsFlagInRightTeamBase();
@@ -69,12 +73,15 @@ public class FlagBaseController : MonoBehaviour
 
     private void CaptureFlag(Collider playerCollider)
     {
+        //Update flag state.
         flagCaptured = true;
         isNewFlagAvailable = false;
         flagCloth.gameObject.SetActive(false);
         flagCarryer = playerCollider.gameObject;
         carryFlag = Instantiate(carryFlagPrefab);
         carryFlag.GetComponent<CarryFlagController>().carryer = playerCollider.gameObject;
+
+        //Invoke event with announcement.
         int teamID = flagCarryer.GetComponent<CharacterMotion>().player.user.teamID;
         if (teamID == 1)
         {
@@ -100,17 +107,20 @@ public class FlagBaseController : MonoBehaviour
 
     public void OnFlagScore(string message)
     {
+        //Return flag shortly after scoring.
         StartCoroutine("RefreshFlagState");
     }
 
     public void OnCarryerDie()
     {
+        //Return flag shortly after dropping.
         StartCoroutine("RefreshFlagState");
         UIManager.Instance.MakeAnnouncement("The Flag Carrier Has Died!\n(Flag returning shortly)");
     }
 
      private IEnumerator RefreshFlagState()
     {
+        //Regenerate the flag in flagbase.
         flagCarryer = null;
         flagCaptured = false;
         Destroy(carryFlag);
