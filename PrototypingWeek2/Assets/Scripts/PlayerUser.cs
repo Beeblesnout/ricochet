@@ -63,6 +63,8 @@ public class PlayerUser : NetUser
     private int lastGunID;
     public int teamID;
     private int lastTeamID;
+    public bool hasFlag;
+    private bool lastHasFlag;
 
     private void OnEnable()
     {
@@ -124,16 +126,22 @@ public class PlayerUser : NetUser
             message.Write(ConnectID);
             message.Write(teamID);
             message.Send();
+
+            //send has flag
+            message = new Message(NMType.HasFlag);
+            message.Write(ConnectID);
+            message.Write(hasFlag);
+            message.Send();
         }
     }
 
     private void OnMessage(Message message)
     {
+        if (IsMine) return;
+
         NMType type = (NMType)message.Type;
         if (type == NMType.PlayerAliveState)
         {
-            if (IsMine) return;
-
             message.Rewind();
             if (message.Read<long>() == ConnectID)
             {
@@ -142,8 +150,6 @@ public class PlayerUser : NetUser
         }
         else if (type == NMType.PlayerPosition)
         {
-            if (IsMine) return;
-
             message.Rewind();
             if (message.Read<long>() == ConnectID)
             {
@@ -155,8 +161,6 @@ public class PlayerUser : NetUser
         }
         else if (type == NMType.PlayerEulerAngles)
         {
-            if (IsMine) return;
-
             message.Rewind();
             if (message.Read<long>() == ConnectID)
             {
@@ -167,8 +171,6 @@ public class PlayerUser : NetUser
         }
         else if (type == NMType.PlayerShootState)
         {
-            if (IsMine) return;
-
             message.Rewind();
             if (message.Read<long>() == ConnectID)
             {
@@ -177,8 +179,6 @@ public class PlayerUser : NetUser
         }
         else if (type == NMType.PlayerGunID)
         {
-            if (IsMine) return;
-
             message.Rewind();
             if (message.Read<long>() == ConnectID)
             {
@@ -187,12 +187,26 @@ public class PlayerUser : NetUser
         }
         else if (type == NMType.PlayerTeam)
         {
-            if (IsMine) return;
-
             message.Rewind();
             if (message.Read<long>() == ConnectID)
             {
                 teamID = message.Read<int>();
+            }
+        }
+        else if (type == NMType.DeathEvent)
+        {
+            message.Rewind();
+            if (message.Read<long>() == ConnectID)
+            {
+                AvatarHealth.Kill();
+            }
+        }
+        else if (type == NMType.HasFlag)
+        {
+            message.Rewind();
+            if (message.Read<long>() == ConnectID)
+            {
+                hasFlag = message.Read<bool>();
             }
         }
     }
@@ -266,6 +280,16 @@ public class PlayerUser : NetUser
                     message.Write(teamID);
                     message.Send();
                 }
+
+                //sync has flag
+                if (hasFlag != lastHasFlag)
+                {
+                    lastHasFlag = hasFlag;
+                    Message message = new Message(NMType.HasFlag);
+                    message.Write(ConnectID);
+                    message.Write(hasFlag);
+                    message.Send();
+                }
             }
         }
         else
@@ -286,42 +310,59 @@ public class PlayerUser : NetUser
         {
             if (IsMine)
             {
-                Avatar = Instantiate(avatarPrefab);
-                Avatar.GetComponent<Player>().user = this;
-                AvatarMotion = Avatar.GetComponent<CharacterMotion>();
-                AvatarGun = Avatar.GetComponentInChildren<GunController>();
-                AvatarHealth = Avatar.GetComponent<Health>();
-                AvatarMotion.teamID = teamID;
-                Avatar.transform.position = LevelManager.Instance.GetRandomSpawnLoc(teamID);
-                isAlive = true;
-                UIManager.Instance.LinkUIElements();
+                SpawnAvatar();
             }
             else
             {
                 Avatar = Instantiate(dummyAvatarPrefab);
             }
-            Avatar.GetComponent<Health>().onDeath.AddListener(KillAvatar);
+            Avatar.GetComponent<Health>().onDeath.AddListener(Kill);
         }
         else if (Avatar != null && !isAlive)
         {
             Destroy(Avatar);
+            LevelManager.Instance.players.Remove(Avatar.transform);
         }
     }
 
     public void SpawnAvatar()
     {
-
+        Avatar = Instantiate(avatarPrefab);
+        Avatar.GetComponent<Player>().user = this;
+        AvatarMotion = Avatar.GetComponent<CharacterMotion>();
+        AvatarMotion.teamID = teamID;
+        AvatarGun = Avatar.GetComponentInChildren<GunController>();
+        AvatarHealth = Avatar.GetComponent<Health>();
+        AvatarHealth.onDeath.AddListener(Kill);
+        UIManager.Instance.LinkUIElements();
+        LevelManager.Instance.players.Add(Avatar.transform);
+        Respawn();
     }
 
-    private async void KillAvatar()
+    private async void Kill()
     {
-        await Task.Delay(1000);
-        Destroy(Avatar);
+        if (!IsMine)
+        {
+            Message message = new Message(NMType.DeathEvent);
+            message.Write(ConnectID);
+            message.Send();
+        }
+
+        isAlive = false;
+        await Task.Delay(3000);
+        isAlive = true;
     }
     
     public void JoinTeam(int newTeam)
     {
         teamID = newTeam;
-        if (Avatar) Avatar.transform.position = LevelManager.Instance.GetRandomSpawnLoc(newTeam);
+        AvatarMotion.teamID = teamID;
+        Respawn();
+    }
+
+    public void Respawn()
+    {
+        Avatar.transform.position = LevelManager.Instance.GetRandomSpawnLoc(teamID);
+        isAlive = true;
     }
 }

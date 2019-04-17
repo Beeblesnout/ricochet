@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{2433ee38-decf-4b7a-ae22-32638cadfc7f}">
+        <property name="assetPath">
+            <value>ric.wav</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>44.0999985</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>1.0187755102040816</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{3da5290c-ecaa-4645-a48c-079b03f4f748}</destination>
+        </relationship>
+    </object>
+</objects>

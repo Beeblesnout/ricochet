@@ -10,6 +10,10 @@ public class UIManager : SingletonBase<UIManager>
 {
     public Transform canvas;
 
+    bool inMenu = false;
+    public GameObject GameHUD;
+    public GameObject InGameMenu;
+
     public Transform aimCrosshair;
     public LineRenderer aimReflectLine;
     public TMP_Text fpsCounter;
@@ -31,8 +35,8 @@ public class UIManager : SingletonBase<UIManager>
     /// <summary>
     /// Announcement Start Time
     /// </summary>
-    private float annStartTime;
-    private bool announcing;
+    public float annStartTime;
+    public bool announcing;
 
     void Start()
     {
@@ -49,7 +53,6 @@ public class UIManager : SingletonBase<UIManager>
         teamText = GameObject.Find("TeamText").GetComponent<TMP_Text>();
         healthBar = GameObject.Find("HealthBar").GetComponent<Slider>();
         announcementText = GameObject.Find("AnnouncementText").GetComponent<TMP_Text>();
-        announcementText.enabled = false;
     }
 
     public void LinkUIElements()
@@ -64,7 +67,7 @@ public class UIManager : SingletonBase<UIManager>
 
     void Update()
     {
-        fpsCounter.text = 1f / Time.deltaTime + "";
+        fpsCounter.text = ((int)(1f / Time.deltaTime)).ToString("D");
 
         if (playerGun)
         {
@@ -72,10 +75,28 @@ public class UIManager : SingletonBase<UIManager>
             currentGunText.text = playerGun.gun.gunName;
         }
         if (playerHealth) healthBar.value = Mathf.Clamp01(playerHealth.displayHealth / playerHealth.maxHealth);
+        if (playerMotion) teamText.text = playerMotion.teamID == 1 ? "Red Team" : "Blue Team";
 
-        
+        if (Input.GetKeyDown(KeyCode.Escape)) 
+        {
+            inMenu = !inMenu;
+            if (inMenu)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                GameHUD.SetActive(false);
+                InGameMenu.SetActive(true);
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                GameHUD.SetActive(true);
+                InGameMenu.SetActive(false);
+            }
+        }
 
-        if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
+        AnnouncementUpdate();
     }
 
     void SetCrosshairPos()
@@ -117,6 +138,7 @@ public class UIManager : SingletonBase<UIManager>
         annStartTime = Time.time;
         announcementText.text = message;
         announcementText.gameObject.SetActive(true);
+        announcing = true;
         Debug.Log(message);
     }
 

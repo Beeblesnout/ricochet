@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{237a83e9-e114-4bbe-bc14-34639bff3f6f}">
+        <property name="assetPath">
+            <value>cloth-jacket-impacts-clothing.wav</value>
+        </property>
+        <property name="isStreaming">
+            <value>true</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>22.356375</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{3da5290c-ecaa-4645-a48c-079b03f4f748}</destination>
+        </relationship>
+    </object>
+</objects>

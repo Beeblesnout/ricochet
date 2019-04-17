@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{8f424c27-2940-49b4-8f0a-7703f4647220}">
+        <property name="assetPath">
+            <value>Footsteps (cement).wav</value>
+        </property>
+        <property name="isStreaming">
+            <value>true</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>44.0999985</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>15.526031746031746</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{3da5290c-ecaa-4645-a48c-079b03f4f748}</destination>
+        </relationship>
+    </object>
+</objects>

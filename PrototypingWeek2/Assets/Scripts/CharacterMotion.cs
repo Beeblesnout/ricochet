@@ -15,11 +15,16 @@ public class CharacterMotion : IDedObject<CharacterMotion>
     public float clampRate;
     public float lookSensitivity;
     public float jumpStrength;
+    public bool grounded;
     
     public GunController gun;
     public float gunRotateRate;
     public Vector3 gunHeadOffset;
     public float gunPosRate;
+
+    [FMODUnity.EventRef]
+    public string footstepsPath;
+    FMOD.Studio.EventInstance footsteps;
 
     public Player player;
     public Health health;
@@ -96,9 +101,22 @@ public class CharacterMotion : IDedObject<CharacterMotion>
             transform.position = Vector3.zero;
     }
 
+    void Update()
+    {
+        grounded = Physics.Raycast(transform.position + Vector3.down, Vector3.down, .1f);
+        if (grounded && rb.velocity.magnitude > .5f)
+        {
+            footsteps.start();
+        }
+        else
+        {
+            footsteps.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        }
+    }
+
     void KillPop()
     {
         rb.freezeRotation = false;
-        rb.AddExplosionForce(100, (Vector3.up * -.5f) + new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)), 5, 200, ForceMode.Impulse);
+        rb.AddExplosionForce(10, (Vector3.up * -.5f) + new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)), 5, 200, ForceMode.Impulse);
     }
 }

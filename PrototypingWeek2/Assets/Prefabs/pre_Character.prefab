@@ -165,10 +165,12 @@ MonoBehaviour:
   clampRate: 0.15
   lookSensitivity: 1.35
   jumpStrength: 5
+  grounded: 0
   gun: {fileID: 2422375936160109029}
   gunRotateRate: 0.25
   gunHeadOffset: {x: 0, y: 0, z: 0}
   gunPosRate: 0.25
+  footstepsPath: event:/footsteps
   player: {fileID: 0}
   health: {fileID: 8930017846877760375}
   rb: {fileID: 0}
@@ -217,6 +219,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   alive: 0
+  damageAnimState: 0
   damageAnimDuration: 1
   healthAnimCurve:
     serializedVersion: 2
@@ -9956,7 +9959,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9624552e6c802ed4c97ad57a0666d647, type: 2}
   - {fileID: 11400000, guid: 1ec289ccf7ae250499568aeb99e0d237, type: 2}
   - {fileID: 11400000, guid: 975ffc3a5477c80448f4bafae9b737f6, type: 2}
-  - {fileID: 11400000, guid: 7ed924e9d14438042b37863ca4c0ef36, type: 2}
   index: 0
   gun: {fileID: 11400000, guid: cb80a16a2a747ec4a8d093a11db2102c, type: 2}
   shotTime: 0

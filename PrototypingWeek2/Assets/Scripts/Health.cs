@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
+    public PlayerUser user;
     private MeshRenderer mesh;
 
     [Header("Basic Variables")]
@@ -76,7 +77,7 @@ public class Health : MonoBehaviour
         mesh.material = defaultMat;
     }
 
-    void Kill()
+    public void Kill()
     {
         mesh.material = deadCharMat;
         GetComponent<CharacterMotion>().disableMovement = true;

@@ -5,11 +5,11 @@ using UnityEngine;
 public class ImpactEffect : Effect
 {
     Effect[] effects;
-    AudioSource sound;
+    [FMODUnity.EventRef]
+    public string ricochetSound;
     
     void Awake() {
         effects = GetComponentsInChildren<Effect>();
-        sound = GetComponent<AudioSource>();
     }
 
     public ImpactEffect Activate(Vector3 position, Vector3 forward)
@@ -24,8 +24,7 @@ public class ImpactEffect : Effect
             effects[i].Activate();
         }
 
-        sound.Stop();
-        sound.Play();
+        FMODUnity.RuntimeManager.PlayOneShot(ricochetSound);
 
         return this;
     }

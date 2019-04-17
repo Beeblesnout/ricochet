@@ -5,9 +5,9 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public PlayerUser user;
-    CharacterMotion motor;
-    Health health;
-    GunController gun;
+    public CharacterMotion motor;
+    public Health health;
+    public GunController gun;
 
     //Bool determining if player can jump with associated get/set method
     public bool canJump = true;

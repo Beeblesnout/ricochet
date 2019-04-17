@@ -11,6 +11,7 @@ public class FlagBaseController : MonoBehaviour
 {
     [SerializeField]
     public GameObject flagCarryer;
+    public CarryFlagController flagController;
     [SerializeField]
     public bool flagCaptured;
     [SerializeField]
@@ -19,6 +20,8 @@ public class FlagBaseController : MonoBehaviour
     public int team1Score, team2Score;
     public float timeLeft;
     public float roundTime;
+
+    public TMPro.TMP_Text scoreText;
 
     public GameObject flagCloth;
     public GameObject carryFlagPrefab;
@@ -37,6 +40,8 @@ public class FlagBaseController : MonoBehaviour
         onFlagCaptured.AddListener(UIManager.Instance.MakeAnnouncement);
         onFlagInRightTeamBase.AddListener(UIManager.Instance.MakeAnnouncement);
         onFlagInRightTeamBase.AddListener(OnFlagScore);
+
+        timeLeft = roundTime;
     }
 
     private void Update()
@@ -46,6 +51,9 @@ public class FlagBaseController : MonoBehaviour
         {
             CheckIsFlagInRightTeamBase();
         }
+
+        timeLeft -= Time.deltaTime;
+        scoreText.text = string.Format("{0:D}|{1:D3}|{2:D}", (int)team1Score, (int)timeLeft, (int)team2Score);
     }
 
     private void CheckIsFlagInRightTeamBase()
@@ -56,19 +64,25 @@ public class FlagBaseController : MonoBehaviour
         {
             if (teamID == 1)
             {
-                onFlagCaptured.Invoke("Red Team Has Captured The Flag!");
+                onFlagInRightTeamBase.Invoke("Red Team Has Captured The Flag!");
                 team1Score++;
             }
             else if (teamID == 2)
             {
-                onFlagCaptured.Invoke("Blue Team Has Captured The Flag!");
+                onFlagInRightTeamBase.Invoke("Blue Team Has Captured The Flag!");
                 team2Score++;
             }
             else
             {
-                onFlagCaptured.Invoke("How on earth have you scored with a non-existent team? That's illegal you clod.");
+                onFlagInRightTeamBase.Invoke("How on earth have you scored with a non-existent team? That's illegal you clod.");
             }
         }
+    }
+
+    public void SetFlagCarrier(PlayerUser user)
+    {
+        flagCarryer = user.Avatar;
+        flagController.carryer = user.Avatar;
     }
 
     private void CaptureFlag(Collider playerCollider)
@@ -118,13 +132,13 @@ public class FlagBaseController : MonoBehaviour
         UIManager.Instance.MakeAnnouncement("The Flag Carrier Has Died!\n(Flag returning shortly)");
     }
 
-     private IEnumerator RefreshFlagState()
+    private IEnumerator RefreshFlagState()
     {
         //Regenerate the flag in flagbase.
         flagCarryer = null;
         flagCaptured = false;
         Destroy(carryFlag);
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         flagCloth.gameObject.SetActive(true);
         isNewFlagAvailable = true;
     }

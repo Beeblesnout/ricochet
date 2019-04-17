@@ -54,9 +54,6 @@ public class ShotsManager : SingletonBase<ShotsManager>
             }
         }
 
-        shotCountText.text = "Current Shots: " + allShots.Count;
-        rayCountText.text = "Updating Rays: " + readyShotsIndex.Count;
-
         if (readyShotsIndex.Count != 0 && !shotsHandle.Equals(null))
         {
             if (shotsHandle.IsCompleted && !shotRays.IsCreated && !shotResults.IsCreated)
@@ -139,13 +136,11 @@ public class ShotsManager : SingletonBase<ShotsManager>
 
             if (activeShotLines.ContainsKey(shot))
             {
-                Console.WriteLine("Updated shot line");
                 activeShotLines[shot].Activate(shot.getAllHitPoints().ToArray(), shot.completed);
                 RequeueLine(activeShotLines[shot]);
             }
             else
             {
-                Console.WriteLine("Used new shot line");
                 // fetches a new line from the list, 
                 LineEffect newLine = lineEffects.Dequeue();
                 activeShotLines.Add(shot, newLine);
@@ -170,7 +165,6 @@ public class ShotsManager : SingletonBase<ShotsManager>
 
     public void RecieveShots(List<Shot> newShots)
     {
-        print("Recieved " + newShots.Count + " shots");
         allShots.AddRange(newShots);
     }
 

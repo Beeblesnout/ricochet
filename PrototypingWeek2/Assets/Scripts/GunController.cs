@@ -61,7 +61,6 @@ public class GunController : MonoBehaviour
         }
         else
         {
-            Debug.Log("I am using projectile");
             for (int i = 0; i < gun.shotCount; i++)
             {
                 GameObject spawnedGrenade = Instantiate(grenade, gunEnd.position, gunEnd.rotation);

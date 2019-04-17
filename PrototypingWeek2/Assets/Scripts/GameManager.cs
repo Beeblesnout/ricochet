@@ -2,6 +2,7 @@
 using Popcron.Networking;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,9 +22,10 @@ public class GameManager : MonoBehaviour
 
             PlayerUser.Local.isAlive = true;
         }
-        catch
+        catch (NullReferenceException e)
         {
-            Debug.Log("Could not host");
+            Debug.LogError("Host Error: \n" + e);
+            SceneManager.LoadScene(0);
         }
     }
 
@@ -37,14 +39,18 @@ public class GameManager : MonoBehaviour
 
             CommandsNetworking.Connect();
 
-            while (!recievedLevel) await Task.Delay(25);
-
+            while (!recievedLevel && !PlayerUser.Local && !LevelManager.Instance) 
+            {
+                loadingBar.value = 0;
+                loadingText.text = "Fetching Host Level...";
+                await Task.Delay(20);
+            }
             LevelManager.Instance.SetLevel(levelToLoad);
-            PlayerUser.Local.isAlive = true;
         }
-        catch
+        catch (NullReferenceException e)
         {
-            Debug.Log("Could not connect");
+            Debug.LogError("Connection Error: \n" + e);
+            SceneManager.LoadScene(0);
         }
     }
 
@@ -79,9 +85,28 @@ public class GameManager : MonoBehaviour
             recievedLevel = true;
         }
     }
+
+    public void LoadScene(int buildIndex)
+    {
+        Net.Disconnect();
+        SceneManager.LoadScene(buildIndex);
+    }
     
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void TrySpawnPlayer(GameObject cam)
+    {
+        try
+        {
+            PlayerUser.Local.isAlive = true;
+            cam.SetActive(false);
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.LogError("Nope: \n" + e);
+        }
     }
 }

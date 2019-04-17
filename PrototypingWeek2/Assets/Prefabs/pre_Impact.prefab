@@ -48,6 +48,7 @@ MonoBehaviour:
   duration: 0.5
   activateTime: 0
   lifePercent: 0
+  alive: 0
   emitType: 0
   emitCount: 15
   decayCurve:
@@ -4837,6 +4838,7 @@ MonoBehaviour:
   duration: 3
   activateTime: 0
   lifePercent: 0
+  alive: 0
   scaleOverLifetime:
     serializedVersion: 2
     m_Curve:
@@ -5070,6 +5072,8 @@ MonoBehaviour:
   duration: 3
   activateTime: 0
   lifePercent: 0
+  alive: 0
+  ricochetSound: event:/ricochet
 --- !u!1 &4764781236793344297
 GameObject:
   m_ObjectHideFlags: 0
@@ -5118,6 +5122,7 @@ MonoBehaviour:
   duration: 1.1
   activateTime: 0
   lifePercent: 0
+  alive: 0
   emitType: 0
   emitCount: 10
   decayCurve:

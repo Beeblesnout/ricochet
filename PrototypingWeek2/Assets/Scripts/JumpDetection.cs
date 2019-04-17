@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class JumpDetection : MonoBehaviour
 {
-    public Player motionScript;
+    public Player player;
 
     private void OnTriggerStay(Collider other)
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Grounds"))
         {
-            motionScript.canJump = true;
+            player.canJump = true;
         }
     }
 }

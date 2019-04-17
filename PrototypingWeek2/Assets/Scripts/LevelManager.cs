@@ -8,13 +8,15 @@ using UnityEngine;
 public class LevelManager : SingletonBase<LevelManager>
 {
     public List<Level> levels;
+    public List<Transform> players;
+    public GameObject flag;
 
     public static bool hasLoadedLevels = false;
     public int loadedLevel;
-    public Transform player;
 
-    void Start()
+    public override void Awake()
     {
+        base.Awake();
         LoadLevels();
     }
 
@@ -30,6 +32,7 @@ public class LevelManager : SingletonBase<LevelManager>
     {
         levels.ForEach(l => l.Deactivate());
         levels[index].Activate();
+        flag.transform.position = levels[index].flagLocation.position;
         loadedLevel = index;
     }
 
